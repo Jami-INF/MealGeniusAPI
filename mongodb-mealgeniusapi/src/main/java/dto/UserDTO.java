@@ -1,15 +1,17 @@
-package model;
+package dto;
 
+
+import model.User;
 import org.bson.types.ObjectId;
 
-public class User {
+public class UserDTO {
     public ObjectId id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public User(ObjectId id, String firstName, String lastName, String email, String password) {
+    public UserDTO(ObjectId id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,7 +19,15 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public UserDTO() {
+    }
+
+    public UserDTO(User user) {
+        this.id = user.getId();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
     }
 
     public ObjectId getId() {
@@ -60,3 +70,4 @@ public class User {
         this.password = password;
     }
 }
+
