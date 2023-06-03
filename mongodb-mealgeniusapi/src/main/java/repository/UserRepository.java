@@ -28,7 +28,7 @@ public class UserRepository {
     private MongoCollection<Document> collection = getConnexion().getCollection("users");;
 
     public void getCollection(){
-        mongoClient.getDatabase("test").getCollection("users");
+        mongoClient.getDatabase("mealgenius").getCollection("users");
     }
 
     public void addUser(UserEntity userEntity) {
