@@ -57,7 +57,7 @@ public class FoodRepository {
 
     public List<FoodEntity> listAll() {
         List<Document> documents = collection.find().into(new ArrayList<>());
-        List<FoodRepository> foods = new ArrayList<>();
+        List<FoodEntity> foods = new ArrayList<>();
         for (Document document : documents) {
             foods.add(foodMapper.documentToFood(document));
         }
