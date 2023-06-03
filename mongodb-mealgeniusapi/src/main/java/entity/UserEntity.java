@@ -1,11 +1,18 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserEntity {
     public String id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+
+    private List<MealEntity> meals = new ArrayList<>();
+
+    private List<FoodEntity> foods = new ArrayList<>();
 
     public UserEntity(String id, String firstName, String lastName, String email, String password) {
         this.id = id;

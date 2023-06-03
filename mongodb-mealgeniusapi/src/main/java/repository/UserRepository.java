@@ -73,7 +73,6 @@ public class UserRepository {
         return userEntities;
     }
 
-
     public void initDB(){
         //ajoute un utilisateur à la collection mealgenius
         Document userDocument = new Document()
@@ -86,7 +85,10 @@ public class UserRepository {
     }
 
     public MongoDatabase getConnexion(){
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        String connectionString = "mongodb+srv://jamidev:uz2paZc5Dsii0FVY@mealgeniusapi.j6cu3vg.mongodb.net/?retryWrites=true&w=majority";
+//        String connectionString = "mongodb://localhost:27017";
+
+        MongoClient mongoClient = MongoClients.create(connectionString);
         MongoDatabase database = mongoClient.getDatabase("mealgenius");
         MongoCollection<Document> collection = database.getCollection("users");
         return database;
