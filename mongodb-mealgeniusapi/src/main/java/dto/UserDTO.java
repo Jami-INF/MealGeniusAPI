@@ -1,17 +1,16 @@
 package dto;
 
 
-import model.User;
-import org.bson.types.ObjectId;
+import entity.UserEntity;
 
 public class UserDTO {
-    public ObjectId id;
+    public String id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public UserDTO(ObjectId id, String firstName, String lastName, String email, String password) {
+    public UserDTO(String id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,15 +21,15 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(User user) {
-        this.id = user.getId();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.email = user.getEmail();
-        this.password = user.getPassword();
+    public UserDTO(UserEntity userEntity) {
+        this.id = userEntity.getId();
+        this.firstName = userEntity.getFirstName();
+        this.lastName = userEntity.getLastName();
+        this.email = userEntity.getEmail();
+        this.password = userEntity.getPassword();
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
@@ -50,7 +49,7 @@ public class UserDTO {
         return password;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
