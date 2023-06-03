@@ -1,15 +1,20 @@
-package model;
+package entity;
 
-import org.bson.types.ObjectId;
+import java.util.ArrayList;
+import java.util.List;
 
-public class User {
-    public ObjectId id;
+public class UserEntity {
+    public String id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public User(ObjectId id, String firstName, String lastName, String email, String password) {
+    private List<MealEntity> meals = new ArrayList<>();
+
+    private List<FoodEntity> foods = new ArrayList<>();
+
+    public UserEntity(String id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,10 +22,10 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public UserEntity() {
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
@@ -40,7 +45,7 @@ public class User {
         return password;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -5,7 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import mapper.UserMapper;
-import model.User;
+import entity.UserEntity;
 import org.bson.types.ObjectId;
 import repository.UserRepository;
 
@@ -25,10 +25,11 @@ public class UserController {
     }
 
     @GET
-    public List<User> getUsers() {
-        List<User> users = new ArrayList<User>();
-        users.addAll(userRepository.listAll());
-        return users;
+    @Path("/")
+    public List<UserEntity> getUsers() {
+        List<UserEntity> userEntities = new ArrayList<UserEntity>();
+        userEntities.addAll(userRepository.listAll());
+        return userEntities;
     }
     @GET
     @Path("/{id}")
@@ -42,21 +43,24 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public void updateUser (@PathParam("id") String id, UserDTO user) {
-        user.setId(new ObjectId(id));
         userRepository.update(UserMapper.userDTOToUser(user));
     }
+
     @POST
+    @Path("/adduser")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(UserDTO userDTO) {
-        User user = UserMapper.userDTOToUser(userDTO);
-        userRepository.persist(user);
+        userDTO.setId(new ObjectId().toHexString());
+        UserEntity userEntity = UserMapper.userDTOToUser(userDTO);
+        userRepository.addUser(userEntity);
         return Response.status(Response.Status.CREATED).build();
     }
 
     @DELETE
     @Path("/{id}")
     public void deleteUser(@PathParam("id") String id) {
-        User user = userRepository.findById(id);
-        userRepository.delete(user);
+        UserEntity userEntity = userRepository.findById(id);
+        userRepository.delete(userEntity);
     }
 
     @POST
