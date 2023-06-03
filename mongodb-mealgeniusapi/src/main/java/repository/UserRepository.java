@@ -23,7 +23,7 @@ public class UserRepository {
     private MongoCollection<Document> collection;
 
     public void getCollection(){
-        mongoClient.getDatabase("test").getCollection("users");
+        mongoClient.getDatabase("mealgenius").getCollection("users");
     }
 
     public void persist(User user) {
