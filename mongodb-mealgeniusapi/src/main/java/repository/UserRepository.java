@@ -27,53 +27,40 @@ public class UserRepository {
 
     private MongoCollection<Document> collection = getConnexion().getCollection("users");;
 
-    public void getCollection(){
+/*    public void getCollection(){
         mongoClient.getDatabase("mealgenius").getCollection("users");
     }
 
     public void addUser(UserEntity userEntity) {
         Document userDoc = UserMapper.userToDocument(userEntity);
         collection.insertOne(userDoc);
+    }*/
+
+    public UserEntity find(Document query) {
+        Document document = collection.find(query).first();
+        return document == null ? null : userMapper.documentToEntity(document);
     }
 
-    public UserEntity findById(String id) {
-        Document query = new Document("_id", new ObjectId(id));
-        Document userDoc = collection.find(query).first();
-        if (userDoc != null) {
-            return userMapper.documentToUser(userDoc);
-        }
-        return null;
-    }
-
-    public UserEntity findByUsername(String username) {
-        Document query = new Document("username", username);
-        Document userDoc = collection.find(query).first();
-        if (userDoc != null) {
-            return userMapper.documentToUser(userDoc);
-        }
-        return null;
-    }
-
-    public void delete(UserEntity userEntity) {
+/*    public void delete(UserEntity userEntity) {
         Document query = new Document("_id", userEntity.getId());
         collection.deleteOne(query);
-    }
+    }*/
 
-    public void update(UserEntity userEntity) {
+/*    public void update(UserEntity userEntity) {
         Document query = new Document("_id", userEntity.getId());
         collection.updateOne(query, new Document("$set", UserMapper.userToDocument(userEntity)));
-    }
+    }*/
 
-    public List<UserEntity> listAll() {
+/*    public List<UserEntity> listAll() {
         List<Document> documents = collection.find().into(new ArrayList<>());
         List<UserEntity> userEntities = new ArrayList<>();
         for (Document document : documents) {
-            userEntities.add(userMapper.documentToUser(document));
+            userEntities.add(userMapper.documentToEntity(document));
         }
         return userEntities;
-    }
+    }*/
 
-    public void initDB(){
+/*    public void initDB(){
         //ajoute un utilisateur à la collection mealgenius
         Document userDocument = new Document()
                 .append("firstname", "John")
@@ -82,7 +69,7 @@ public class UserRepository {
                 .append("password", "password");
         collection.insertOne(userDocument);
 
-    }
+    }*/
 
     public MongoDatabase getConnexion(){
         String connectionString = "mongodb+srv://jamidev:uz2paZc5Dsii0FVY@mealgeniusapi.j6cu3vg.mongodb.net/?retryWrites=true&w=majority";

@@ -10,7 +10,7 @@ import org.bson.types.ObjectId;
 @ApplicationScoped
 public class UserMapper {
 
-    public static UserDTO userToUserDTO(UserEntity userEntity) {
+    public static UserDTO entityToDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userEntity.getId());
         userDTO.setFirstName(userEntity.getFirstName());
@@ -19,7 +19,7 @@ public class UserMapper {
         return userDTO;
     }
 
-    public static UserEntity userDTOToUser(UserDTO userDTO) {
+    public static UserEntity DTOToEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userDTO.getId());
         userEntity.setFirstName(userDTO.getFirstName());
@@ -28,17 +28,16 @@ public class UserMapper {
         return userEntity;
     }
 
-    public static Document userToDocument(UserEntity userEntity) {
-        Document doc = new Document()
-                .append("_id", new ObjectId(userEntity.getId()))
-                .append("firstname", userEntity.getFirstName())
-                .append("lastname", userEntity.getLastName())
-                .append("email", userEntity.getEmail())
-                .append("password", userEntity.getPassword());
-        return doc;
+    public static Document entityToDocument(UserEntity userEntity) {
+        return new Document()
+            .append("_id", new ObjectId(userEntity.getId()))
+            .append("firstname", userEntity.getFirstName())
+            .append("lastname", userEntity.getLastName())
+            .append("email", userEntity.getEmail())
+            .append("password", userEntity.getPassword());
     }
 
-    public UserEntity documentToUser(Document doc){
+    public UserEntity documentToEntity(Document doc){
         UserEntity userEntity = new UserEntity();
         userEntity.setId(doc.getObjectId("_id").toHexString());
         userEntity.setFirstName(doc.getString("firstname"));

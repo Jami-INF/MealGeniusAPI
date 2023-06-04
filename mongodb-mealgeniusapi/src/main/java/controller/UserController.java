@@ -8,6 +8,7 @@ import mapper.UserMapper;
 import entity.UserEntity;
 import org.bson.types.ObjectId;
 import repository.UserRepository;
+import service.UserService;
 
 
 import java.util.ArrayList;
@@ -16,57 +17,59 @@ import java.util.List;
 @Path("/api/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private UserMapper userMapper;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
         this.userMapper = new UserMapper();
     }
 
-    @GET
+ /*  *//* @GET
     @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<UserEntity> getUsers() {
-        List<UserEntity> userEntities = new ArrayList<UserEntity>();
+        List<UserEntity> userEntities = new ArrayList<>();
         userEntities.addAll(userRepository.listAll());
         return userEntities;
-    }
+    }*/
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public UserDTO getUser (@PathParam("id") String id) {
-        return UserMapper.userToUserDTO(userRepository.findById(id));
+        return userService.getUserById(id);
     }
 
-    @PUT
+/*    @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public void updateUser (@PathParam("id") String id, UserDTO user) {
         userRepository.update(UserMapper.userDTOToUser(user));
-    }
+    }*/
 
-    @POST
+/*    @POST
     @Path("/adduser")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response addUser(UserDTO userDTO) {
         userDTO.setId(new ObjectId().toHexString());
         UserEntity userEntity = UserMapper.userDTOToUser(userDTO);
         userRepository.addUser(userEntity);
         return Response.status(Response.Status.CREATED).build();
-    }
+    }*/
 
-    @DELETE
+ /*   @DELETE
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     public void deleteUser(@PathParam("id") String id) {
         UserEntity userEntity = userRepository.findById(id);
         userRepository.delete(userEntity);
-    }
+    }*/
 
-    @POST
+/*    @POST
     @Path("/initdb")
     public void initDB() {
         userRepository.initDB();
-    }
+    }*/
 
 }
