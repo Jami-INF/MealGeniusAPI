@@ -25,27 +25,41 @@ public class UserController {
         this.userMapper = new UserMapper();
     }
 
- /*  *//* @GET
+    @GET
     @Path("/")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<UserEntity> getUsers() {
-        List<UserEntity> userEntities = new ArrayList<>();
-        userEntities.addAll(userRepository.listAll());
-        return userEntities;
-    }*/
+    public List<UserDTO> getUsers() {
+        List<UserDTO> userDTOs = new ArrayList<>();
+        userDTOs.addAll(userService.getAll());
+        return userDTOs;
+    }
+
     @GET
     @Path("/{id}")
     public UserDTO getUser (@PathParam("id") String id) {
         return userService.getUserById(id);
     }
 
-/*    @PUT
+    @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void updateUser (@PathParam("id") String id, UserDTO user) {
-        userRepository.update(UserMapper.userDTOToUser(user));
-    }*/
+    public Response updateUser (@PathParam("id") String id, UserDTO user) {
+        UserEntity entity = UserMapper.DTOToEntity(user);
+        return userService.updateUser(entity);
+    }
+
+    @POST
+    @Path("/adduser")
+    public Response addUser(UserDTO userDTO) {
+        userDTO.setId(new ObjectId().toHexString());
+        UserEntity userEntity = UserMapper.DTOToEntity(userDTO);
+        return userService.addUser(userEntity);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteUser(@PathParam("id") String id) {
+        return userService.deleteUser(id);
+    }
+
 
 /*    @POST
     @Path("/adduser")
@@ -64,12 +78,6 @@ public class UserController {
     public void deleteUser(@PathParam("id") String id) {
         UserEntity userEntity = userRepository.findById(id);
         userRepository.delete(userEntity);
-    }*/
-
-/*    @POST
-    @Path("/initdb")
-    public void initDB() {
-        userRepository.initDB();
     }*/
 
 }
