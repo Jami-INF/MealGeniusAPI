@@ -2,6 +2,9 @@ package service;
 
 import dto.UserDTO;
 import entity.UserEntity;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Default;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import mapper.UserMapper;
 import org.bson.Document;
@@ -11,11 +14,16 @@ import repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@ApplicationScoped
+@Default
 public class UserService {
 
     private final UserRepository userRepository;
     private UserMapper userMapper;
 
+
+    @Inject
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
         this.userMapper = new UserMapper();

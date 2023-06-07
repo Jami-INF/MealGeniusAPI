@@ -2,12 +2,10 @@ package controller;
 
 import dto.UserDTO;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import mapper.UserMapper;
 import entity.UserEntity;
 import org.bson.types.ObjectId;
-import repository.UserRepository;
 import service.UserService;
 
 

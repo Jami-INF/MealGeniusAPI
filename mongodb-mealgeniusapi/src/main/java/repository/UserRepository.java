@@ -9,26 +9,19 @@ import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import mapper.UserMapper;
 import entity.UserEntity;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Default;
-import jakarta.inject.Inject;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ApplicationScoped
-@Default
 public class UserRepository {
 
-    @Inject
     MongoClient mongoClient;
     private static final String DATABASE_NAME = "mealgenius";
 
     private UserMapper userMapper = new UserMapper();
 
-    private MongoCollection<Document> collection = getConnexion().getCollection("users");;
+    private MongoCollection<Document> collection = getConnexion().getCollection("users");
 
 /*    public void getCollection(){
         mongoClient.getDatabase("mealgenius").getCollection("users");
