@@ -47,7 +47,6 @@ public class UserController {
     @POST
     @Path("/adduser")
     public Response addUser(UserDTO userDTO) {
-        userDTO.setId(new ObjectId().toHexString());
         UserEntity userEntity = UserMapper.DTOToEntity(userDTO);
         return userService.addUser(userEntity);
     }
@@ -57,25 +56,4 @@ public class UserController {
     public Response deleteUser(@PathParam("id") String id) {
         return userService.deleteUser(id);
     }
-
-
-/*    @POST
-    @Path("/adduser")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addUser(UserDTO userDTO) {
-        userDTO.setId(new ObjectId().toHexString());
-        UserEntity userEntity = UserMapper.userDTOToUser(userDTO);
-        userRepository.addUser(userEntity);
-        return Response.status(Response.Status.CREATED).build();
-    }*/
-
- /*   @DELETE
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void deleteUser(@PathParam("id") String id) {
-        UserEntity userEntity = userRepository.findById(id);
-        userRepository.delete(userEntity);
-    }*/
-
 }

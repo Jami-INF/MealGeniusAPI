@@ -6,9 +6,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
-import mapper.UserMapper;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import mapper.UserMapper;
 import repository.UserRepository;
 
 import java.util.ArrayList;
@@ -19,14 +19,12 @@ import java.util.List;
 @Default
 public class UserService {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
     private UserMapper userMapper;
 
-
-    @Inject
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService() {
         this.userMapper = new UserMapper();
+        this.userRepository = new UserRepository();
     }
 
     public UserDTO getUserById(String id) {
