@@ -52,7 +52,7 @@ public class UserRepository {
         return result.getDeletedCount() == 1;
     }
     public MongoDatabase getConnexion(){
-        String connectionString = "mongodb+srv://jamidev:uz2paZc5Dsii0FVY@mealgeniusapi.j6cu3vg.mongodb.net/?retryWrites=true&w=majority";
+        String connectionString = "mongodb://jamidev:uz2paZc5Dsii0FVY@mealgeniusapi.j6cu3vg.mongodb.net/?retryWrites=true&w=majority";
 //        String connectionString = "mongodb://localhost:27017";
 
         MongoClient mongoClient = MongoClients.create(connectionString);
