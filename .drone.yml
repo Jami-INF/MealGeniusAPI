@@ -32,15 +32,13 @@ steps:
     depends_on: [build]
 
   - name: deploy
-    image: plugins/docker
-    settings:
-      registry: hub.codefirst.iut.uca.fr
-      repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
-      username:
-        from_secret: SECRET_REGISTRY_USERNAME
-      password:
-        from_secret: SECRET_REGISTRY_PASSWORD
-    pull: true
-    commands:
-      - docker run -d -p 8080:8080 hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
-    depends_on: [docker-build-and-push]
+    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
+    environment:
+      IMAGENAME: hub.codefirst.iut.uca.fr/jordan.artzet/sfjj-tarotscoreur
+      CONTAINERNAME: mealgeniusapi
+      COMMAND: 
+        - cd mongodb-mealgeniusapi
+        - mvn quarkus:dev
+      OVERWRITE: true
+      ADMINS: jamiinfante,tristanchallet,julientheme
+    depends_on: [ docker-build-and-push ]
