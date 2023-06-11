@@ -53,8 +53,8 @@ public class StepRepository {
     }
 
     public MongoDatabase getConnexion(){
-//        String connectionString = "mongodb+srv://jamidev:uz2paZc5Dsii0FVY@mealgeniusapi.j6cu3vg.mongodb.net/?retryWrites=true&w=majority";
-        String connectionString = "mongodb://localhost:27017";
+        String connectionString = "mongodb+srv://jamidev:uz2paZc5Dsii0FVY@mealgeniusapi.j6cu3vg.mongodb.net/?retryWrites=true&w=majority";
+//        String connectionString = "mongodb://localhost:27017";
 
         com.mongodb.client.MongoClient mongoClient = MongoClients.create(connectionString);
         MongoDatabase database = mongoClient.getDatabase("mealgenius");
