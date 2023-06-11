@@ -15,25 +15,24 @@ steps:
     commands:
       - cd mongodb-mealgeniusapi
       - mvn clean package -DskipTests
-    secrets: [ QUARKUS_SECRET ]
+    secrets: [QUARKUS_SECRET]
 
   # docker image build
   - name: docker-build-and-push
     image: plugins/docker
     settings:
-       dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
-       context: mongodb-mealgeniusapi/
-       registry: hub.codefirst.iut.uca.fr
-       repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
-       username:
-         from_secret: SECRET_REGISTRY_USERNAME
-       password:
-         from_secret: SECRET_REGISTRY_PASSWORD
+      dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
+      context: mongodb-mealgeniusapi/
+      registry: hub.codefirst.iut.uca.fr
+      repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
+      username:
+        from_secret: SECRET_REGISTRY_USERNAME
+      password:
+        from_secret: SECRET_REGISTRY_PASSWORD
     depends_on: [build]
 
   - name: deploy
-    image: maven:3.8.4-openjdk-17
+    image: docker:20.10.7
     commands:
-      - cd mongodb-mealgeniusapi
-      - mvn quarkus:dev
+      - docker run -p 8080:8080 hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
     depends_on: [docker-build-and-push]
