@@ -18,7 +18,7 @@ steps:
     secrets: [ QUARKUS_SECRET ]
 
   - name: deploy
-    image: maven:3.8.4-openjdk-17
+    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     commands:
       - cd mongodb-mealgeniusapi
       - mvn quarkus:dev
