@@ -11,14 +11,14 @@ trigger:
 
 steps:
   - name: build
-    image: maven:3.8.8-openjdk-20
+    image: maven:3.8.4-openjdk-17
     commands:
       - cd mongodb-mealgeniusapi
       - mvn clean package -DskipTests
     secrets: [ QUARKUS_SECRET ]
 
   - name: deploy
-    image: maven:3.8.8-openjdk-20
+    image: maven:3.8.4-openjdk-17
     commands:
       - cd mongodb-mealgeniusapi
       - mvn quarkus:dev
