@@ -31,7 +31,7 @@ public class FoodMapper {
         return doc;
     }
 
-    public FoodEntity documentToEntity(Document doc){
+    public static FoodEntity documentToEntity(Document doc){
         FoodEntity foodEntity = new FoodEntity();
         foodEntity.setId(doc.getObjectId("_id").toHexString());
         foodEntity.setName(doc.getString("name"));
