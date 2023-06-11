@@ -34,7 +34,7 @@ steps:
   - name: deploy
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
-      IMAGENAME: hub.codefirst.iut.uca.fr/jordan.artzet/sfjj-tarotscoreur
+      IMAGENAME: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
       CONTAINERNAME: mealgeniusapi
       COMMAND: create
       OVERWRITE: true
