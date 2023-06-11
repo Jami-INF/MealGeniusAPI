@@ -25,7 +25,7 @@ public class StepMapper {
         return stepEntity;
     }
 
-    public Document entityToDocument(StepEntity stepEntity){
+    public static Document entityToDocument(StepEntity stepEntity){
         Document stepDocument = new Document();
         stepDocument.append("id", stepEntity.getId());
         stepDocument.append("description", stepEntity.getDescription());
