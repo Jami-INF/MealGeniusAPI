@@ -17,8 +17,21 @@ steps:
       - mvn clean package -DskipTests
     secrets: [ QUARKUS_SECRET ]
 
+  # docker image build
+  - name: docker-build-and-push
+    image: plugins/docker
+    settings:
+       dockerfile: Sources/Dockerfile
+       context: Sources/
+       registry: hub.codefirst.iut.uca.fr
+       repo: hub.codefirst.iut.uca.fr/julien.theme/MealGeniusAPI
+       username:
+         from_secret: SECRET_REGISTRY_USERNAME
+       password:
+         from_secret: SECRET_REGISTRY_PASSWORD
+
   - name: deploy
-    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
+    image: maven:3.8.4-openjdk-17
     commands:
       - cd mongodb-mealgeniusapi
       - mvn quarkus:dev
