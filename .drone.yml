@@ -24,7 +24,7 @@ steps:
        dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
        context: mongodb-mealgeniusapi/
        registry: hub.codefirst.iut.uca.fr
-       repo: hub.codefirst.iut.uca.fr/julien.theme/MealGeniusAPI
+       repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
        username:
          from_secret: SECRET_REGISTRY_USERNAME
        password:
