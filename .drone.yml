@@ -37,8 +37,11 @@ steps:
       IMAGENAME: hub.codefirst.iut.uca.fr/jordan.artzet/sfjj-tarotscoreur
       CONTAINERNAME: mealgeniusapi
       COMMAND: 
-        - cd mongodb-mealgeniusapi
-        - mvn quarkus:dev
+      - /bin/sh
+      - -c
+      - |
+        cd mongodb-mealgeniusapi
+        mvn quarkus:dev
       OVERWRITE: true
       ADMINS: jamiinfante,tristanchallet,julientheme
     depends_on: [ docker-build-and-push ]
