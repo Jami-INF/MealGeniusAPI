@@ -15,7 +15,7 @@ steps:
     commands:
       - cd mongodb-mealgeniusapi
       - mvn clean package -DskipTests
-    from_secret: [QUARKUS_SECRET]
+    secrets: [QUARKUS_SECRET]
 
   - name: docker-build-and-push
     image: plugins/docker
