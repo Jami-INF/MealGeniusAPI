@@ -77,27 +77,18 @@
 #   accessed directly. (example: "foo.example.com,bar.example.com")
 #
 ###
-
 FROM registry.access.redhat.com/ubi8/openjdk-17:1.15
 
 ENV LANGUAGE='en_US:en'
 
-# Set the working directory
-WORKDIR /deployments
 
-# Copy the necessary files
+# We make four distinct layers so if there are application changes the library layers can be re-used
 COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
 COPY --chown=185 target/quarkus-app/*.jar /deployments/
 COPY --chown=185 target/quarkus-app/app/ /deployments/app/
 COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
 
-# Expose the necessary port
 EXPOSE 8080
-
-# Set the user and environment variables
 USER 185
 ENV JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
-
-# Run the application
-CMD ["java", "-jar", "/deployments/quarkus-run.jar"]
