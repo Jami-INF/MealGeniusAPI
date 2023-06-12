@@ -17,11 +17,12 @@ steps:
       - mvn clean package -DskipTests
     secrets: [QUARKUS_SECRET]
 
+  # docker image build
   - name: docker-build-and-push
     image: plugins/docker
     settings:
-      dockerfile: src/main/docker/Dockerfile.jvm
-      context: .
+      dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
+      context: mongodb-mealgeniusapi/
       registry: hub.codefirst.iut.uca.fr
       repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
       username:
@@ -38,4 +39,4 @@ steps:
       COMMAND: create
       OVERWRITE: true
       ADMINS: jamiinfante,tristanchallet,julientheme
-    depends_on: [docker-build-and-push]
+    depends_on: [ docker-build-and-push ]
