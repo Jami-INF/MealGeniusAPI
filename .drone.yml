@@ -30,11 +30,10 @@ steps:
     depends_on: [build]
 
   - name: docker-run
-    image: docker
+    image: quarkus/maven
     commands:
       - cd mongodb-mealgeniusapi
       - ./mvnw package
       - docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mongodb-mealgeniusapi-jvm .
       - docker run -i --rm -p 8080:8080 quarkus/mongodb-mealgeniusapi-jvm
     depends_on: [docker-build]
-
