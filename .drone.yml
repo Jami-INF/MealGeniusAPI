@@ -4,7 +4,7 @@ name: mealgeniusApi
 
 trigger:
   branch:
-    - master 
+    - master
     - dev
   event:
     - push
@@ -16,8 +16,7 @@ steps:
       - cd mongodb-mealgeniusapi
       - mvn clean package -DskipTests
 
-  # docker image build
-  - name: docker-build-and-push
+  - name: docker-build
     image: plugins/docker
     settings:
       dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
@@ -30,12 +29,8 @@ steps:
         from_secret: SECRET_REGISTRY_PASSWORD
     depends_on: [build]
 
-  - name: deploy
-    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
-    environment:
-      IMAGENAME: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
-      CONTAINERNAME: mealgeniusapi
-      COMMAND: create
-      OVERWRITE: true
-      ADMINS: jamiinfante,tristanchallet,julientheme
-    depends_on: [ docker-build-and-push ]
+  - name: docker-run
+    image: docker
+    commands:
+      - docker run -i --rm -p 8080:8080 quarkus/mongodb-mealgeniusapi-jvm
+    depends_on: [docker-build]
