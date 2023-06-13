@@ -17,23 +17,14 @@ steps:
       - mvn clean package -DskipTests
 
   - name: docker-build
-    image: plugins/docker
-    settings:
-      dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
-      context: mongodb-mealgeniusapi/
-      registry: hub.codefirst.iut.uca.fr
-      repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
-      username:
-        from_secret: SECRET_REGISTRY_USERNAME
-      password:
-        from_secret: SECRET_REGISTRY_PASSWORD
+    image: docker
+    commands:
+      - cd mongodb-mealgeniusapi
+      - docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mongodb-mealgeniusapi-jvm .
     depends_on: [build]
 
   - name: docker-run
-    image: maven:3.8.4-openjdk-17
+    image: docker
     commands:
-      - cd mongodb-mealgeniusapi
-      - mvn clean package -DskipTests
-      - docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mongodb-mealgeniusapi-jvm .
       - docker run -i --rm -p 8080:8080 quarkus/mongodb-mealgeniusapi-jvm
     depends_on: [docker-build]
