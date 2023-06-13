@@ -30,7 +30,7 @@ steps:
     depends_on: [build]
 
   - name: docker-run
-    image: quarkus/maven
+    image: maven:3.8.4-openjdk-17
     commands:
       - cd mongodb-mealgeniusapi
       - ./mvnw package
