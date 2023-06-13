@@ -34,10 +34,10 @@ steps:
     environment:
       IMAGENAME: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
       CONTAINERNAME: mealgeniusapi
-      COMMAND:
-        - ./mvnw package
+      commands:
+        - cd mongodb-mealgeniusapi
+        - mvn clean package -DskipTests
         - docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mongodb-mealgeniusapi-jvm .
-        - docker run -i --rm -p 8080:8080 quarkus/mongodb-mealgeniusapi-jvm
-      OVERWRITE: "true"
+        - docker run -i --rm -p 8080:8080 quarkus/mongodb-mealgeniusapi-jvm      OVERWRITE: true
       ADMINS: jamiinfante,tristanchallet,julientheme
-    depends_on: [docker-build-and-push]
+    depends_on: [ docker-build-and-push ]
