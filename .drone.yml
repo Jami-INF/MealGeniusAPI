@@ -16,12 +16,7 @@ steps:
       - cd mongodb-mealgeniusapi
       - mvn clean package -DskipTests
 
-  - name: docker-build
-    image: docker:latest
-    commands:
-      - cd mongodb-mealgeniusapi
-      - docker build -f src/main/docker/Dockerfile.jvm -t quarkus/mongodb-mealgeniusapi-jvm .
-
+  # docker image build
   - name: docker-build-and-push
     image: plugins/docker
     settings:
@@ -43,4 +38,4 @@ steps:
       COMMAND: create
       OVERWRITE: true
       ADMINS: jamiinfante,tristanchallet,julientheme
-    depends_on: [docker-build-and-push]
+    depends_on: [ docker-build-and-push ]
