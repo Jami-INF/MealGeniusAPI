@@ -14,13 +14,14 @@ public class MealDTO {
 
     private List<StepDTO> steps = new ArrayList<>();
 
-    public MealDTO(String id, String name, String description, Base64 image, int duration, List<IngredientDTO> ingredients) {
+    public MealDTO(String id, String name, String description, Base64 image, int duration, List<IngredientDTO> ingredients, List<StepDTO> steps) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
         this.duration = duration;
         this.ingredients = ingredients;
+        this.steps = steps;
     }
 
     public MealDTO() {
@@ -72,5 +73,13 @@ public class MealDTO {
 
     public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<StepDTO> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<StepDTO> steps) {
+        this.steps = steps;
     }
 }

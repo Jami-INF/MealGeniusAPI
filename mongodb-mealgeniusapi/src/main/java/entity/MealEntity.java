@@ -14,13 +14,14 @@ public class MealEntity {
 
     private List<StepEntity> steps = new ArrayList<>();
 
-    public MealEntity(String id, String name, String description, Base64 image, int duration, List<IngredientEntity> ingredients) {
+    public MealEntity(String id, String name, String description, Base64 image, int duration, List<IngredientEntity> ingredients, List<StepEntity> steps) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
         this.duration = duration;
         this.ingredients = ingredients;
+        this.steps = steps;
     }
 
     public MealEntity() {
@@ -72,5 +73,13 @@ public class MealEntity {
 
     public void setIngredients(List<IngredientEntity> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<StepEntity> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<StepEntity> steps) {
+        this.steps = steps;
     }
 }

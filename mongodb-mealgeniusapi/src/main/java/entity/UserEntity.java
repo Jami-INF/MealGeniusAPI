@@ -9,17 +9,15 @@ public class UserEntity {
     private String lastName;
     private String email;
     private String password;
-
-    private List<MealEntity> meals = new ArrayList<>();
-
     private List<FoodEntity> foods = new ArrayList<>();
 
-    public UserEntity(String id, String firstName, String lastName, String email, String password) {
+    public UserEntity(String id, String firstName, String lastName, String email, String password, List<FoodEntity> foods) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.foods = foods;
     }
 
     public UserEntity() {
@@ -63,5 +61,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<FoodEntity> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(List<FoodEntity> foods) {
+        this.foods = foods;
     }
 }

@@ -3,6 +3,9 @@ package dto;
 
 import entity.UserEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDTO {
     public String id;
     private String firstName;
@@ -10,12 +13,15 @@ public class UserDTO {
     private String email;
     private String password;
 
-    public UserDTO(String id, String firstName, String lastName, String email, String password) {
+    private List<FoodDTO> foods = new ArrayList<>();
+
+    public UserDTO(String id, String firstName, String lastName, String email, String password, List<FoodDTO> foods) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.foods = foods;
     }
 
     public UserDTO() {
@@ -67,6 +73,14 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<FoodDTO> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(List<FoodDTO> foods) {
+        this.foods = foods;
     }
 }
 
