@@ -16,25 +16,24 @@ steps:
       - cd mongodb-mealgeniusapi
       - mvn clean package -DskipTests
 
-  # docker image build
   - name: docker-build-and-push
     image: plugins/docker
     settings:
-      dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
-      context: mongodb-mealgeniusapi/
-      registry: hub.codefirst.iut.uca.fr
-      repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
-      username:
-        from_secret: SECRET_REGISTRY_USERNAME
-      password:
-        from_secret: SECRET_REGISTRY_PASSWORD
-    depends_on: [build]
+       dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
+       context: .
+       registry: hub.codefirst.iut.uca.fr
+       repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
+       username:
+         from_secret: SECRET_REGISTRY_USERNAME
+       password:
+         from_secret: SECRET_REGISTRY_PASSWORD
 
-  - name: deploy
+# container deployment
+  - name: deploy-container
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
-        IMAGENAME: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
-        CONTAINERNAME: drone-sonarplugin-reactnative
+        IMAGENAME: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi:latest
+        CONTAINERNAME: mealgeniusapi
         COMMAND: create
         OVERWRITE: true
     depends_on: [ docker-build-and-push ]
