@@ -20,7 +20,7 @@ steps:
     image: plugins/docker
     settings:
        dockerfile: mongodb-mealgeniusapi/src/main/docker/Dockerfile.jvm
-       context: .
+       context: mongodb-mealgeniusapi/
        registry: hub.codefirst.iut.uca.fr
        repo: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi
        username:
@@ -29,11 +29,12 @@ steps:
          from_secret: SECRET_REGISTRY_PASSWORD
 
 # container deployment
-  - name: deploy-container
+  - name: deploy
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
         IMAGENAME: hub.codefirst.iut.uca.fr/julien.theme/mealgeniusapi:latest
         CONTAINERNAME: mealgeniusapi
         COMMAND: create
         OVERWRITE: true
+        ADMINS: jamiinfante,tristanchallet,julientheme
     depends_on: [ docker-build-and-push ]
