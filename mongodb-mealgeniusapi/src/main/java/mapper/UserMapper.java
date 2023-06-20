@@ -7,8 +7,7 @@ import entity.UserEntity;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-@ApplicationScoped
-public class UserMapper {
+public abstract class UserMapper {
 
     public static UserDTO entityToDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
@@ -21,7 +20,11 @@ public class UserMapper {
 
     public static UserEntity DTOToEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(userDTO.getId());
+        if (userDTO.getId() == null) {
+            userEntity.setId(new ObjectId().toHexString());
+        }else{
+            userEntity.setId(userDTO.getId());
+        }
         userEntity.setFirstName(userDTO.getFirstName());
         userEntity.setLastName(userDTO.getLastName());
         userEntity.setEmail(userDTO.getEmail());
@@ -37,13 +40,19 @@ public class UserMapper {
             .append("password", userEntity.getPassword());
     }
 
-    public UserEntity documentToEntity(Document doc){
+    public static UserEntity documentToEntity(Document doc) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(doc.getObjectId("_id").toHexString());
+        ObjectId objectId = doc.getObjectId("_id");
+        if (objectId != null) {
+            userEntity.setId(objectId.toHexString());
+        } else {
+            userEntity.setId(doc.get("id").toString());
+        }
         userEntity.setFirstName(doc.getString("firstname"));
         userEntity.setLastName(doc.getString("lastname"));
         userEntity.setEmail(doc.getString("email"));
         userEntity.setPassword(doc.getString("password"));
         return userEntity;
     }
+
 }

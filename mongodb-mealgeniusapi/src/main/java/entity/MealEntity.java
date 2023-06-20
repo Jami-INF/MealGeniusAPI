@@ -1,20 +1,19 @@
 package entity;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public class MealEntity {
     private String id;
     private String name;
     private String description;
-    private Base64 image;
+    private String image;
     private int duration;
     private List<IngredientEntity> ingredients = new ArrayList<>();
 
     private List<StepEntity> steps = new ArrayList<>();
 
-    public MealEntity(String id, String name, String description, Base64 image, int duration, List<IngredientEntity> ingredients, List<StepEntity> steps) {
+    public MealEntity(String id, String name, String description, String image, int duration, List<IngredientEntity> ingredients, List<StepEntity> steps) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -51,11 +50,11 @@ public class MealEntity {
         this.description = description;
     }
 
-    public Base64 getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Base64 image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -81,5 +80,9 @@ public class MealEntity {
 
     public void setSteps(List<StepEntity> steps) {
         this.steps = steps;
+    }
+
+    public void addIngredient(IngredientEntity ingredientEntity) {
+        this.ingredients.add(ingredientEntity);
     }
 }

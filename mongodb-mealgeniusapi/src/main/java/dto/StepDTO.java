@@ -1,6 +1,7 @@
 package dto;
 
-public class StepDTO {
+public class
+StepDTO {
     private String id;
     private String description;
     private int number;

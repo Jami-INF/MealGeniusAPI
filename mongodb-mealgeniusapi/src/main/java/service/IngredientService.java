@@ -19,20 +19,16 @@ public class IngredientService {
 
     private IngredientRepository ingredientRepository;
 
-    private IngredientMapper ingredientMapper;
 
     public IngredientService() {
         this.ingredientRepository = new IngredientRepository();
-        this.ingredientMapper = new IngredientMapper();
     }
 
     public IngredientDTO getIngredientById(String id) {
-        Document document = new Document("_id", id);
+        Document document = new Document("_id", new ObjectId(id));
         IngredientEntity entity = ingredientRepository.find(document);
-
         if (entity != null)
             return IngredientMapper.entityToDTO(entity);
-
         return null;
     }
 
@@ -54,7 +50,7 @@ public class IngredientService {
     }
 
     public Response addIngredient(IngredientEntity ingredient) {
-        ingredient.setId(new ObjectId().toHexString());
+        //ingredient.setId(new ObjectId().toHexString());
         Boolean result = ingredientRepository.add(IngredientMapper.entityToDocument(ingredient));
         return getResponse(result);
     }

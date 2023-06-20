@@ -18,32 +18,32 @@ public class MealRepository {
     MongoClient mongoClient;
     private static final String DATABASE_NAME = "mealgenius";
 
-    private MealMapper mealMapper = new MealMapper();
-
     private MongoCollection<Document> collection = getConnexion().getCollection("meals");
 
     public MealEntity find(Document query) {
+        System.out.println("query : "+query);
         Document document = collection.find(query).first();
-        return document == null ? null : mealMapper.documentToEntity(document);
+        System.out.println("document : "+document);
+        return document == null ? null : MealMapper.documentToEntity(document);
     }
 
     public boolean update(Document docId, Document doc) {
-        UpdateResult result = collection.updateOne(docId, doc);
-        return result.getModifiedCount() == 1;
+        collection.updateOne(docId, doc);
+        return true;
     }
 
     public List<MealEntity> getAll() {
         List<Document> documents = collection.find().into(new ArrayList<>());
         List<MealEntity> mealEntities = new ArrayList<>();
         for (Document document : documents) {
-            mealEntities.add(mealMapper.documentToEntity(document));
+            mealEntities.add(MealMapper.documentToEntity(document));
         }
         return mealEntities;
     }
 
     public boolean add(Document document) {
-        InsertOneResult result = collection.insertOne(document);
-        return result.getInsertedId() != null;
+        collection.insertOne(document);
+        return true;
     }
 
     public boolean delete(Document document) {
@@ -56,8 +56,7 @@ public class MealRepository {
 //        String connectionString = "mongodb://localhost:27017";
 
         MongoClient mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase("mealgenius");
-        MongoCollection<Document> collection = database.getCollection("users");
+        MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
         return database;
     }
 }

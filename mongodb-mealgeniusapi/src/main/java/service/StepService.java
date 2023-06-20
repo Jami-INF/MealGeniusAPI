@@ -19,15 +19,13 @@ import java.util.List;
 public class StepService {
 
     private StepRepository stepRepository;
-    private StepMapper stepMapper;
 
     public StepService() {
         this.stepRepository = new StepRepository();
-        this.stepMapper = new StepMapper();
     }
 
     public StepDTO getStepById(String id) {
-        Document document = new Document("_id", id);
+        Document document = new Document("_id", new ObjectId(id));
         StepEntity entity = stepRepository.find(document);
 
         if (entity != null)
@@ -54,7 +52,7 @@ public class StepService {
     }
 
     public Response addStep(StepEntity step) {
-        step.setId(new ObjectId().toHexString());
+        //step.setId(new ObjectId().toHexString());
         Boolean result = stepRepository.add(StepMapper.entityToDocument(step));
         return getResponse(result);
     }

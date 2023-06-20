@@ -19,13 +19,13 @@ public class UserRepository {
     MongoClient mongoClient;
     private static final String DATABASE_NAME = "mealgenius";
 
-    private UserMapper userMapper = new UserMapper();
-
     private MongoCollection<Document> collection = getConnexion().getCollection("users");
 
     public UserEntity find(Document query) {
+        System.out.println("query : "+query);
         Document document = collection.find(query).first();
-        return document == null ? null : userMapper.documentToEntity(document);
+        System.out.println("document : "+document);
+        return document == null ? null : UserMapper.documentToEntity(document);
     }
 
     public boolean update(Document docId, Document doc) {
@@ -37,7 +37,7 @@ public class UserRepository {
         List<Document> documents = collection.find().into(new ArrayList<>());
         List<UserEntity> userEntities = new ArrayList<>();
         for (Document document : documents) {
-            userEntities.add(userMapper.documentToEntity(document));
+            userEntities.add(UserMapper.documentToEntity(document));
         }
         return userEntities;
     }
@@ -56,8 +56,7 @@ public class UserRepository {
 //        String connectionString = "mongodb://localhost:27017";
 
         MongoClient mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase("mealgenius");
-        MongoCollection<Document> collection = database.getCollection("users");
+        MongoDatabase database = mongoClient.getDatabase( "mealgenius" );
         return database;
     }
 }

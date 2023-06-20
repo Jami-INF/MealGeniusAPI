@@ -19,13 +19,12 @@ public class IngredientRepository {
     MongoClient mongoClient;
     private static final String DATABASE_NAME = "mealgenius";
 
-    private IngredientMapper ingredientMapper = new IngredientMapper();
 
     private MongoCollection<Document> collection = getConnexion().getCollection("ingredients");
 
     public IngredientEntity find(Document query) {
         Document document = collection.find(query).first();
-        return document == null ? null : ingredientMapper.documentToEntity(document);
+        return document == null ? null : IngredientMapper.documentToEntity(document);
     }
 
     public boolean update(Document docId, Document doc) {
@@ -37,7 +36,7 @@ public class IngredientRepository {
         List<Document> documents = collection.find().into(new ArrayList<>());
         List<IngredientEntity> ingredientEntities = new ArrayList<>();
         for (Document document : documents) {
-            ingredientEntities.add(ingredientMapper.documentToEntity(document));
+            ingredientEntities.add(IngredientMapper.documentToEntity(document));
         }
         return ingredientEntities;
     }
@@ -57,8 +56,7 @@ public class IngredientRepository {
 //        String connectionString = "mongodb://localhost:27017";
 
         com.mongodb.client.MongoClient mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase("mealgenius");
-        MongoCollection<Document> collection = database.getCollection("users");
+        MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
         return database;
     }
 }

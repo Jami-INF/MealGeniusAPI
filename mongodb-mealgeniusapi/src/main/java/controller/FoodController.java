@@ -16,11 +16,9 @@ import java.util.List;
 @Path("/api/foods")
 public class FoodController {
     private final FoodService foodService;
-    private FoodMapper foodMapper;
 
     public FoodController(FoodService foodService) {
         this.foodService = foodService;
-        this.foodMapper = new FoodMapper();
     }
 
     @GET

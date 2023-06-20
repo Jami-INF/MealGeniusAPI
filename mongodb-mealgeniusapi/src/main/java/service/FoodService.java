@@ -20,21 +20,25 @@ import java.util.List;
 public class FoodService {
     private FoodRepository foodRepository;
 
-    private FoodMapper foodMapper;
 
     public FoodService() {
         this.foodRepository = new FoodRepository();
-        this.foodMapper = new FoodMapper();
     }
 
     public FoodDTO getFoodById(String id) {
-        Document document = new Document("_id", id);
+        Document document = new Document("_id", new ObjectId(id));
         FoodEntity entity = foodRepository.find(document);
 
         if (entity != null)
             return FoodMapper.entityToDTO(entity);
 
         return null;
+    }
+
+    public FoodEntity getFoodEntityById(String id) {
+        Document document = new Document("_id", new ObjectId(id));
+        FoodEntity entity = foodRepository.find(document);
+        return entity;
     }
 
     public Response updateFood(FoodEntity food) {
@@ -55,7 +59,9 @@ public class FoodService {
     }
 
     public Response addFood(FoodEntity food) {
-        food.setId(new ObjectId().toHexString());
+        //food.setId(new ObjectId().toHexString());
+        System.out.println("efefcfvef"+food.getName());
+
         Boolean result = foodRepository.add(FoodMapper.entityToDocument(food));
         return getResponse(result);
     }

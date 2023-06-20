@@ -2,13 +2,13 @@ package entity;
 
 public class IngredientEntity {
     private String id;
-    private FoodEntity food;
+    private String food;
 
     private String unit;
 
     private double quantity;
 
-    public IngredientEntity(String id, FoodEntity food, String unit, double quantity) {
+    public IngredientEntity(String id, String food, String unit, double quantity) {
         this.id = id;
         this.food = food;
         this.unit = unit;
@@ -22,7 +22,7 @@ public class IngredientEntity {
         return id;
     }
 
-    public FoodEntity getFood() {
+    public String getFood() {
         return food;
     }
 
@@ -38,7 +38,7 @@ public class IngredientEntity {
         this.id = id;
     }
 
-    public void setFood(FoodEntity food) {
+    public void setFood(String food) {
         this.food = food;
     }
 

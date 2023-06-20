@@ -24,13 +24,11 @@ public class FoodRepository {
     MongoClient mongoClient;
     private static final String DATABASE_NAME = "mealgenius";
 
-    private FoodMapper foodMapper = new FoodMapper();
-
     private MongoCollection<Document> collection = getConnexion().getCollection("foods");
 
     public FoodEntity find(Document query) {
         Document document = collection.find(query).first();
-        return document == null ? null : foodMapper.documentToEntity(document);
+        return document == null ? null : FoodMapper.documentToEntity(document);
     }
 
     public boolean update(Document docId, Document doc) {
@@ -41,7 +39,7 @@ public class FoodRepository {
         List<Document> documents = collection.find().into(new ArrayList<>());
         List<FoodEntity> foodEntities = new ArrayList<>();
         for (Document document : documents) {
-            foodEntities.add(foodMapper.documentToEntity(document));
+            foodEntities.add(FoodMapper.documentToEntity(document));
         }
         return foodEntities;
     }
@@ -61,8 +59,9 @@ public class FoodRepository {
 //        String connectionString = "mongodb://localhost:27017";
 
         MongoClient mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase("mealgenius");
-        MongoCollection<Document> collection = database.getCollection("foods");
+        MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+        //création de l'index sur le champ name
+        database.getCollection("foods").createIndex(new Document("name", 1));
         return database;
     }
 }

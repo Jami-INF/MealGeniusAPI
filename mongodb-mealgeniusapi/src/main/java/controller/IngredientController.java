@@ -13,11 +13,9 @@ import java.util.List;
 @Path("/api/ingredients")
 public class IngredientController {
     private final IngredientService ingredientService;
-    private IngredientMapper ingredientMapper;
 
     public IngredientController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
-        this.ingredientMapper = new IngredientMapper();
     }
 
     @GET
@@ -39,13 +37,6 @@ public class IngredientController {
     public Response updateIngredient (@PathParam("id") String id, IngredientDTO ingredient) {
         IngredientEntity entity = IngredientMapper.DTOToEntity(ingredient);
         return ingredientService.updateIngredient(entity);
-    }
-
-    @POST
-    @Path("/addingredient")
-    public Response addIngredient(IngredientDTO ingredientDTO) {
-        IngredientEntity ingredientEntity = IngredientMapper.DTOToEntity(ingredientDTO);
-        return ingredientService.addIngredient(ingredientEntity);
     }
 
     @DELETE

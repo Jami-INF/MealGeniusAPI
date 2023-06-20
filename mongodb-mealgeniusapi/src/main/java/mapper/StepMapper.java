@@ -4,9 +4,9 @@ import dto.StepDTO;
 import entity.StepEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
-@ApplicationScoped
-public class StepMapper {
+public abstract class StepMapper {
     public static StepDTO entityToDTO(StepEntity stepEntity){
         StepDTO stepDTO = new StepDTO();
         stepDTO.setId(stepEntity.getId());
@@ -18,7 +18,11 @@ public class StepMapper {
 
     public static StepEntity DTOToEntity(StepDTO stepDTO){
         StepEntity stepEntity = new StepEntity();
-        stepEntity.setId(stepDTO.getId());
+        if(stepDTO.getId() == null){
+            stepEntity.setId(new ObjectId().toHexString());
+        }else{
+            stepEntity.setId(stepDTO.getId());
+        }
         stepEntity.setDescription(stepDTO.getDescription());
         stepEntity.setNumber(stepDTO.getNumber());
         stepEntity.setDuration(stepDTO.getDuration());
@@ -27,19 +31,28 @@ public class StepMapper {
 
     public static Document entityToDocument(StepEntity stepEntity){
         Document stepDocument = new Document();
-        stepDocument.append("id", stepEntity.getId());
+        stepDocument.append("_id", stepEntity.getId());
         stepDocument.append("description", stepEntity.getDescription());
         stepDocument.append("number", stepEntity.getNumber());
         stepDocument.append("duration", stepEntity.getDuration());
         return stepDocument;
     }
 
-    public StepEntity documentToEntity(Document stepDocument){
+    public static StepEntity documentToEntity(Document stepDocument) {
         StepEntity stepEntity = new StepEntity();
-        stepEntity.setId(stepDocument.getObjectId("_id").toHexString());
+        Object objectId = stepDocument.get("_id");
+        if (objectId != null) {
+            stepEntity.setId(objectId.toString());
+        } else {
+            Object id = stepDocument.get("id");
+            if (id != null) {
+                stepEntity.setId(id.toString());
+            }
+        }
         stepEntity.setDescription(stepDocument.getString("description"));
         stepEntity.setNumber(stepDocument.getInteger("number"));
         stepEntity.setDuration(stepDocument.getInteger("duration"));
         return stepEntity;
     }
+
 }

@@ -12,11 +12,9 @@ import java.util.List;
 
 public class StepController {
     private final StepService stepService;
-    private StepMapper stepMapper;
 
     public StepController(StepService stepService) {
         this.stepService = stepService;
-        this.stepMapper = new StepMapper();
     }
 
     @GET

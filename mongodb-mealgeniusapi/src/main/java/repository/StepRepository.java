@@ -19,13 +19,11 @@ public class StepRepository {
     MongoClient mongoClient;
     private static final String DATABASE_NAME = "mealgenius";
 
-    private StepMapper stepMapper = new StepMapper();
-
     private MongoCollection<Document> collection = getConnexion().getCollection("steps");
 
     public StepEntity find(Document query) {
         Document document = collection.find(query).first();
-        return document == null ? null : stepMapper.documentToEntity(document);
+        return document == null ? null : StepMapper.documentToEntity(document);
     }
 
     public boolean update(Document docId, Document doc) {
@@ -37,7 +35,7 @@ public class StepRepository {
         List<Document> documents = collection.find().into(new ArrayList<>());
         List<StepEntity> stepEntities = new ArrayList<>();
         for (Document document : documents) {
-            stepEntities.add(stepMapper.documentToEntity(document));
+            stepEntities.add(StepMapper.documentToEntity(document));
         }
         return stepEntities;
     }
@@ -57,8 +55,7 @@ public class StepRepository {
 //        String connectionString = "mongodb://localhost:27017";
 
         com.mongodb.client.MongoClient mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase("mealgenius");
-        MongoCollection<Document> collection = database.getCollection("users");
+        MongoDatabase database = mongoClient.getDatabase( DATABASE_NAME );
         return database;
     }
 }

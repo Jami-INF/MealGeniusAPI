@@ -20,20 +20,16 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
-    private UserMapper userMapper;
 
     public UserService() {
-        this.userMapper = new UserMapper();
         this.userRepository = new UserRepository();
     }
 
     public UserDTO getUserById(String id) {
         Document document = new Document("_id", new ObjectId(id));
         UserEntity entity = userRepository.find(document);
-
         if (entity != null)
             return UserMapper.entityToDTO(entity);
-
         return null;
     }
 
@@ -55,7 +51,7 @@ public class UserService {
     }
 
     public Response addUser(UserEntity user) {
-        user.setId(new ObjectId().toHexString());
+        //user.setId(new ObjectId().toHexString());
         Boolean result = userRepository.add(UserMapper.entityToDocument(user));
         return getResponse(result);
     }
