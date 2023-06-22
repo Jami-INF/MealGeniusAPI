@@ -1,5 +1,6 @@
 package controller;
 
+import dto.MealDTO;
 import dto.UserDTO;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
@@ -34,6 +35,8 @@ public class UserController {
     public UserDTO getUser (@PathParam("id") String id) {
         return userService.getUserById(id);
     }
+
+
 
     @PUT
     @Path("/{id}")

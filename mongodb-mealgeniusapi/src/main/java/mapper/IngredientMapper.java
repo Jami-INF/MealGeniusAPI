@@ -6,6 +6,7 @@ import entity.FoodEntity;
 import entity.IngredientEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import repository.FoodRepository;
 import service.FoodService;
 
@@ -17,53 +18,62 @@ public abstract class IngredientMapper {
     public static IngredientDTO entityToDTO(IngredientEntity ingredientEntity) {
         IngredientDTO ingredientDTO = new dto.IngredientDTO();
         ingredientDTO.setId(ingredientEntity.getId());
-        ingredientDTO.setFood(FoodMapper.entityToDTO(foodService.getFoodEntityById(ingredientEntity.getFood())));
+        ingredientDTO.setFood(FoodMapper.entityToDTO(foodService.getFoodEntityById(ingredientEntity.getIdFood())));
         ingredientDTO.setQuantity(ingredientEntity.getQuantity());
         ingredientDTO.setUnit(ingredientEntity.getUnit());
         return ingredientDTO;
     }
 
     public static IngredientEntity DTOToEntity(IngredientDTO ingredientDTO) {
-        IngredientEntity ingredientEntity = new entity.IngredientEntity();
+        IngredientEntity ingredientEntity = new IngredientEntity();
         if (ingredientDTO.getId() == null) {
-            ingredientEntity.setId(new org.bson.types.ObjectId().toHexString());
-        }else{
+            ingredientEntity.setId(new ObjectId().toHexString());
+        } else {
             ingredientEntity.setId(ingredientDTO.getId());
         }
+
         FoodDTO foodDTO = ingredientDTO.getFood();
-        //vérifie si l'id est null
+        // Vérifie si l'id du food est null
         if (foodDTO.getId() == null) {
-            //si elle est nul, crée le food dans la base de donnée
+            // Si elle est null, crée le food dans la base de données
             FoodEntity foodEntity = FoodMapper.DTOToEntity(foodDTO);
             foodService.addFood(foodEntity);
-            ingredientEntity.setFood(foodEntity.getId());
-        }else{
-            //sinon, récupère le food dans la base de donnée
+            ingredientEntity.setIdFood(foodEntity.getId());
+        } else {
+            // Sinon, récupère le food dans la base de données
             FoodEntity foodEntity = foodService.getFoodEntityById(foodDTO.getId());
-            ingredientEntity.setFood(foodEntity.getId());
+            if (foodEntity != null) {
+                ingredientEntity.setIdFood(foodEntity.getId());
+            } else {
+                // Si le food n'existe pas, crée le food dans la base de données
+                foodEntity = FoodMapper.DTOToEntity(foodDTO);
+                foodService.addFood(foodEntity);
+                ingredientEntity.setIdFood(foodEntity.getId());
+            }
         }
         ingredientEntity.setQuantity(ingredientDTO.getQuantity());
         ingredientEntity.setUnit(ingredientDTO.getUnit());
         return ingredientEntity;
     }
 
+
     public static Document entityToDocument(IngredientEntity ingredientEntity) {
         Document ingredientDocument = new Document();
-        ingredientDocument.append("_id", ingredientEntity.getId());
-        ingredientDocument.append("id_food", ingredientEntity.getFood());
+        ingredientDocument.append("_id", new ObjectId(ingredientEntity.getId()));
+        ingredientDocument.append("id_food", ingredientEntity.getIdFood());
         ingredientDocument.append("quantity", ingredientEntity.getQuantity());
         ingredientDocument.append("unit", ingredientEntity.getUnit());
         return ingredientDocument;
     }
     public static IngredientEntity documentToEntity(Document ingredientDocument) {
         IngredientEntity ingredientEntity = new IngredientEntity();
-        Object id = ingredientDocument.get("_id");
+        ObjectId id = ingredientDocument.getObjectId("_id");
         if (id != null) {
-            ingredientEntity.setId(id.toString());
+            ingredientEntity.setId(id.toHexString());
         }
         //FoodEntity foodEntity = FoodMapper.documentToEntity(ingredientDocument.get("food", Document.class));
         String foodId = ingredientDocument.get("id_food").toString();
-        ingredientEntity.setFood(foodService.getFoodEntityById(foodId).getId());
+        ingredientEntity.setIdFood(foodService.getFoodEntityById(foodId).getId());
 
         ingredientEntity.setQuantity(ingredientDocument.getDouble("quantity"));
         ingredientEntity.setUnit(ingredientDocument.getString("unit"));

@@ -32,9 +32,22 @@ public class MealController {
     @GET
     @Path("/{id}")
     public MealDTO getMeal (@PathParam("id") String id) {
+        System.out.println("id: " + id);
         return mealService.getMealById(id);
     }
 
+    /**
+     * Get all meals that are available for a user
+     * @param idUser
+     * @return List of MealDTO
+     */
+    @GET
+    @Path("/users/{id}")
+    public List<MealDTO> getAvailableMeals (@PathParam("id") String idUser) {
+        List<MealDTO> mealDTOs = new ArrayList<>();
+        mealDTOs.addAll(mealService.getAvailableMeals(idUser));
+        return mealDTOs;
+    }
     @PUT
     @Path("/{id}")
     public Response updateMeal (@PathParam("id") String id, MealDTO meal) {
@@ -48,6 +61,8 @@ public class MealController {
         IngredientEntity ingredientEntity = IngredientMapper.DTOToEntity(ingredientDTO);
         MealEntity mealEntity = mealService.getMealEntityById(id_meal);
         mealEntity.addIngredient(ingredientEntity);
+        //mealEntity.getIngredients().forEach(ingredient -> System.out.println("ingreee"+ingredient.getFood()));
+
         return mealService.updateMeal(mealEntity);
         //return mealService.addNewIngredient(id_meal, ingredientEntity);
     }

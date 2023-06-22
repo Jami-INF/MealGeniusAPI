@@ -31,7 +31,7 @@ public abstract class StepMapper {
 
     public static Document entityToDocument(StepEntity stepEntity){
         Document stepDocument = new Document();
-        stepDocument.append("_id", stepEntity.getId());
+        stepDocument.append("_id", new ObjectId(stepEntity.getId()));
         stepDocument.append("description", stepEntity.getDescription());
         stepDocument.append("number", stepEntity.getNumber());
         stepDocument.append("duration", stepEntity.getDuration());
@@ -40,14 +40,9 @@ public abstract class StepMapper {
 
     public static StepEntity documentToEntity(Document stepDocument) {
         StepEntity stepEntity = new StepEntity();
-        Object objectId = stepDocument.get("_id");
+        ObjectId objectId = stepDocument.getObjectId("_id");
         if (objectId != null) {
             stepEntity.setId(objectId.toString());
-        } else {
-            Object id = stepDocument.get("id");
-            if (id != null) {
-                stepEntity.setId(id.toString());
-            }
         }
         stepEntity.setDescription(stepDocument.getString("description"));
         stepEntity.setNumber(stepDocument.getInteger("number"));

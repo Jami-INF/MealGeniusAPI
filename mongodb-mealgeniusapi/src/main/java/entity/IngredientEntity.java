@@ -2,15 +2,15 @@ package entity;
 
 public class IngredientEntity {
     private String id;
-    private String food;
+    private String idFood;
 
     private String unit;
 
     private double quantity;
 
-    public IngredientEntity(String id, String food, String unit, double quantity) {
+    public IngredientEntity(String id, String idFood, String unit, double quantity) {
         this.id = id;
-        this.food = food;
+        this.idFood = idFood;
         this.unit = unit;
         this.quantity = quantity;
     }
@@ -22,8 +22,8 @@ public class IngredientEntity {
         return id;
     }
 
-    public String getFood() {
-        return food;
+    public String getIdFood() {
+        return idFood;
     }
 
     public String getUnit() {
@@ -38,8 +38,8 @@ public class IngredientEntity {
         this.id = id;
     }
 
-    public void setFood(String food) {
-        this.food = food;
+    public void setIdFood(String idFood) {
+        this.idFood = idFood;
     }
 
     public void setUnit(String unit) {

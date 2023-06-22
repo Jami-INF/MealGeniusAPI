@@ -41,6 +41,41 @@ public class MealRepository {
         return mealEntities;
     }
 
+    public List<MealEntity> getAvailableMeals(String idUser) {
+        // Recherche de l'utilisateur par son id pour obtenir la liste des ingrédients qu'il possède
+        Document userQuery = new Document("_id", idUser);
+        Document userDocument = getConnexion().getCollection("users").find(userQuery).first();
+
+        // Récupération de la liste des ingrédients de l'utilisateur
+        List<String> userIngredients = userDocument.get("ingredients", List.class);
+
+        // Construction de la requête pour les meals possédant le plus d'ingrédients en commun avec l'utilisateur
+        Document query = new Document("$lookup",
+                new Document("from", "meals")
+                        .append("localField", "ingredients.idFood")
+                        .append("foreignField", "ingredients.idFood")
+                        .append("as", "commonIngredients"))
+                .append("$project",
+                        new Document("_id", 1)
+                                .append("name", 1)
+                                .append("commonIngredientsCount",
+                                        new Document("$size", "$commonIngredients")))
+                .append("$match",
+                        new Document("commonIngredientsCount",
+                                new Document("$gte", userIngredients.size())))
+                .append("$sort", new Document("commonIngredientsCount", -1))
+                .append("$limit", 10);
+
+        List<Document> documents = collection.aggregate(List.of(query)).into(new ArrayList<>());
+        List<MealEntity> mealEntities = new ArrayList<>();
+        for (Document document : documents) {
+            mealEntities.add(MealMapper.documentToEntity(document));
+        }
+        return mealEntities;
+    }
+
+
+
     public boolean add(Document document) {
         collection.insertOne(document);
         return true;

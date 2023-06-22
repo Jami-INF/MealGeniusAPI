@@ -56,7 +56,7 @@ public class UserRepository {
 //        String connectionString = "mongodb://localhost:27017";
 
         MongoClient mongoClient = MongoClients.create(connectionString);
-        MongoDatabase database = mongoClient.getDatabase( "mealgenius" );
+        MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
         return database;
     }
 }

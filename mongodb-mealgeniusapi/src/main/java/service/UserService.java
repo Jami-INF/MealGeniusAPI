@@ -1,5 +1,6 @@
 package service;
 
+import dto.MealDTO;
 import dto.UserDTO;
 import entity.UserEntity;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,6 +13,7 @@ import mapper.UserMapper;
 import repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -66,4 +68,5 @@ public class UserService {
         Response.Status response = Boolean.TRUE.equals(result) ? Response.Status.OK : Response.Status.NOT_FOUND;
         return Response.status(response).build();
     }
+
 }

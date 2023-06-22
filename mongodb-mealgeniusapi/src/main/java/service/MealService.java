@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 import repository.MealRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @ApplicationScoped
@@ -47,7 +48,7 @@ public class MealService {
 
     public Response updateMeal(MealEntity meal) {
         Document doc = new Document("$set", MealMapper.entityToDocument(meal));
-        Document docId = new Document("_id", meal.getId());
+        Document docId = new Document("_id", new ObjectId(meal.getId()));
         Boolean result =  mealRepository.update(docId, doc);
 
         return getResponse(result);
@@ -56,6 +57,15 @@ public class MealService {
     public List<MealDTO> getAll() {
         List<MealDTO> mealDTOs = new ArrayList<>();
         List<MealEntity> mealEntities = mealRepository.getAll();
+        for (MealEntity mealEntity : mealEntities) {
+            mealDTOs.add(MealMapper.entityToDTO(mealEntity));
+        }
+        return mealDTOs;
+    }
+
+    public List<MealDTO> getAvailableMeals(String idUser) {
+        List<MealDTO> mealDTOs = new ArrayList<>();
+        List<MealEntity> mealEntities = mealRepository.getAvailableMeals(idUser);
         for (MealEntity mealEntity : mealEntities) {
             mealDTOs.add(MealMapper.entityToDTO(mealEntity));
         }
@@ -93,4 +103,6 @@ public class MealService {
         Response.Status response = Boolean.TRUE.equals(result) ? Response.Status.OK : Response.Status.NOT_FOUND;
         return Response.status(response).build();
     }
+
+
 }

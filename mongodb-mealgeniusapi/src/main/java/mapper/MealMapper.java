@@ -74,15 +74,15 @@ public abstract class MealMapper {
 
     public static Document entityToDocument(MealEntity mealEntity){
         Document mealDocument = new Document();
-        mealDocument.append("_id", mealEntity.getId());
+        mealDocument.append("_id", new ObjectId(mealEntity.getId()));
         mealDocument.append("name", mealEntity.getName());
         mealDocument.append("description", mealEntity.getDescription());
         mealDocument.append("image", mealEntity.getImage());
         mealDocument.append("duration", mealEntity.getDuration());
         List<Document> ingredients = new ArrayList<>();
-        for (int i = 0; i < mealEntity.getIngredients().size(); i++) {
-            ingredients.add(IngredientMapper.entityToDocument(mealEntity.getIngredients().get(i)));
-        }
+        mealEntity.getIngredients().forEach(ingredientEntity -> {
+            ingredients.add(IngredientMapper.entityToDocument(ingredientEntity));
+        });
         mealDocument.append("ingredients", ingredients);
         List<Document> steps = new ArrayList<>();
         for (int i = 0; i < mealEntity.getSteps().size(); i++) {
@@ -94,7 +94,7 @@ public abstract class MealMapper {
 
     public static MealEntity documentToEntity(Document mealDocument) {
         MealEntity mealEntity = new MealEntity();
-        Object id = mealDocument.get("_id");
+        ObjectId id = mealDocument.getObjectId("_id");
         if (id != null) {
             mealEntity.setId(id.toString());
         }
