@@ -15,6 +15,12 @@ import java.awt.desktop.SystemEventListener;
 public abstract class IngredientMapper {
 
     private static FoodService foodService = new FoodService();
+
+    /**
+     * Convert IngredientEntity to IngredientDTO
+     * @param ingredientEntity IngredientEntity
+     * @return IngredientDTO
+     */
     public static IngredientDTO entityToDTO(IngredientEntity ingredientEntity) {
         IngredientDTO ingredientDTO = new dto.IngredientDTO();
         ingredientDTO.setId(ingredientEntity.getId());
@@ -25,6 +31,11 @@ public abstract class IngredientMapper {
         return ingredientDTO;
     }
 
+    /**
+     * Convert IngredientDTO to IngredientEntity
+     * @param ingredientDTO IngredientDTO
+     * @return IngredientEntity
+     */
     public static IngredientEntity DTOToEntity(IngredientDTO ingredientDTO) {
         IngredientEntity ingredientEntity = new IngredientEntity();
         if (ingredientDTO.getId() == null) {
@@ -38,7 +49,11 @@ public abstract class IngredientMapper {
         return ingredientEntity;
     }
 
-
+    /**
+     * Convert IngredientEntity to Document
+     * @param ingredientEntity IngredientEntity
+     * @return Document
+     */
     public static Document entityToDocument(IngredientEntity ingredientEntity) {
         Document ingredientDocument = new Document();
         ingredientDocument.append("_id", new ObjectId(ingredientEntity.getId()));
@@ -47,6 +62,12 @@ public abstract class IngredientMapper {
         ingredientDocument.append("unit", ingredientEntity.getUnit());
         return ingredientDocument;
     }
+
+    /**
+     * Convert Document to IngredientEntity
+     * @param ingredientDocument Document
+     * @return IngredientEntity
+     */
     public static IngredientEntity documentToEntity(Document ingredientDocument) {
         IngredientEntity ingredientEntity = new IngredientEntity();
         ObjectId id = ingredientDocument.getObjectId("_id");
