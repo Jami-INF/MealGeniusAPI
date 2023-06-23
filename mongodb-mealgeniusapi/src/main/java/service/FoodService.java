@@ -60,6 +60,8 @@ public class FoodService {
 
     public Response addFood(FoodEntity food) {
         //food.setId(new ObjectId().toHexString());
+        if(food.getId() == null)
+            food.setId(new ObjectId().toHexString());
         Boolean result = foodRepository.add(FoodMapper.entityToDocument(food));
         return getResponse(result);
     }

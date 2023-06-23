@@ -32,9 +32,10 @@ public class MealController {
     @GET
     @Path("/{id}")
     public MealDTO getMeal (@PathParam("id") String id) {
-        System.out.println("id: " + id);
         return mealService.getMealById(id);
     }
+
+
 
     /**
      * Get all meals that are available for a user
@@ -56,21 +57,11 @@ public class MealController {
     }
 
     @POST
-    @Path("/{id}/addnewingredient")
-    public Response addnewingredient(@PathParam("id") String id_meal, IngredientDTO ingredientDTO) {
-        IngredientEntity ingredientEntity = IngredientMapper.DTOToEntity(ingredientDTO);
-        MealEntity mealEntity = mealService.getMealEntityById(id_meal);
-        mealEntity.addIngredient(ingredientEntity);
-        //mealEntity.getIngredients().forEach(ingredient -> System.out.println("ingreee"+ingredient.getFood()));
-
-        return mealService.updateMeal(mealEntity);
-        //return mealService.addNewIngredient(id_meal, ingredientEntity);
-    }
-
-    @POST
     @Path("/{id}/addingredient")
-    public Response addIngredient(@PathParam("id") String id_meal, String id_ingredient) {
-        return mealService.addIngredient(id_meal, id_ingredient);
+    public Response addingredient(@PathParam("id") String id_meal, IngredientDTO ingredientDTO) {
+
+        return mealService.addIngredient(id_meal, ingredientDTO);
+
     }
 
     @POST

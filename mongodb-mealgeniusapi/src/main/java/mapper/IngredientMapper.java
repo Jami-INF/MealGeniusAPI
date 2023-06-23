@@ -18,6 +18,7 @@ public abstract class IngredientMapper {
     public static IngredientDTO entityToDTO(IngredientEntity ingredientEntity) {
         IngredientDTO ingredientDTO = new dto.IngredientDTO();
         ingredientDTO.setId(ingredientEntity.getId());
+
         ingredientDTO.setFood(FoodMapper.entityToDTO(foodService.getFoodEntityById(ingredientEntity.getIdFood())));
         ingredientDTO.setQuantity(ingredientEntity.getQuantity());
         ingredientDTO.setUnit(ingredientEntity.getUnit());
@@ -31,26 +32,7 @@ public abstract class IngredientMapper {
         } else {
             ingredientEntity.setId(ingredientDTO.getId());
         }
-
-        FoodDTO foodDTO = ingredientDTO.getFood();
-        // Vérifie si l'id du food est null
-        if (foodDTO.getId() == null) {
-            // Si elle est null, crée le food dans la base de données
-            FoodEntity foodEntity = FoodMapper.DTOToEntity(foodDTO);
-            foodService.addFood(foodEntity);
-            ingredientEntity.setIdFood(foodEntity.getId());
-        } else {
-            // Sinon, récupère le food dans la base de données
-            FoodEntity foodEntity = foodService.getFoodEntityById(foodDTO.getId());
-            if (foodEntity != null) {
-                ingredientEntity.setIdFood(foodEntity.getId());
-            } else {
-                // Si le food n'existe pas, crée le food dans la base de données
-                foodEntity = FoodMapper.DTOToEntity(foodDTO);
-                foodService.addFood(foodEntity);
-                ingredientEntity.setIdFood(foodEntity.getId());
-            }
-        }
+        ingredientEntity.setIdFood(FoodMapper.DTOToEntity(ingredientDTO.getFood()).getId());
         ingredientEntity.setQuantity(ingredientDTO.getQuantity());
         ingredientEntity.setUnit(ingredientDTO.getUnit());
         return ingredientEntity;
@@ -72,9 +54,7 @@ public abstract class IngredientMapper {
             ingredientEntity.setId(id.toHexString());
         }
         //FoodEntity foodEntity = FoodMapper.documentToEntity(ingredientDocument.get("food", Document.class));
-        String foodId = ingredientDocument.get("id_food").toString();
-        ingredientEntity.setIdFood(foodService.getFoodEntityById(foodId).getId());
-
+        ingredientEntity.setIdFood(ingredientDocument.get("id_food").toString());
         ingredientEntity.setQuantity(ingredientDocument.getDouble("quantity"));
         ingredientEntity.setUnit(ingredientDocument.getString("unit"));
         return ingredientEntity;

@@ -1,7 +1,10 @@
 package service;
 
+import dto.FoodDTO;
+import dto.IngredientDTO;
 import dto.MealDTO;
 import dto.UserDTO;
+import entity.FoodEntity;
 import entity.IngredientEntity;
 import entity.MealEntity;
 import entity.UserEntity;
@@ -13,19 +16,24 @@ import mapper.MealMapper;
 import mapper.UserMapper;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import repository.FoodRepository;
 import repository.MealRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static mapper.FoodMapper.DTOToEntity;
+
 @ApplicationScoped
 @Default
 public class MealService {
     private MealRepository mealRepository;
+    private FoodService foodService;
 
     public MealService() {
         this.mealRepository = new MealRepository();
+        this.foodService = new FoodService();
     }
 
     public MealDTO getMealById(String id) {
@@ -78,19 +86,21 @@ public class MealService {
         return getResponse(result);
     }
 
-//    public Response addNewIngredient(String id, IngredientEntity ingredientEntity) {
-//        Document doc = new Document("$set", IngredientMapper.entityToDocument(ingredientEntity));
-//        System.out.println("efferf"+doc);
-//        Document docId = new Document("_id", new ObjectId(id));
-//        Boolean result = mealRepository.update(docId, doc);
-//        return getResponse(result);
-//    }
+    public Response addIngredient(String idMeal, IngredientDTO ingredientDTO) {
+        FoodDTO foodDTO = ingredientDTO.getFood();
+        if(foodDTO.getId() == null){
+            foodDTO.setId(new ObjectId().toHexString());
+            foodService.addFood(DTOToEntity(foodDTO));
+            ingredientDTO.setFood(foodDTO);
+        }else if(foodService.getFoodEntityById(foodDTO.getId()) == null){
+            foodService.addFood(DTOToEntity(foodDTO));
+        }
+        IngredientEntity ingredientEntity = IngredientMapper.DTOToEntity(ingredientDTO);
+        MealEntity mealEntity = getMealEntityById(idMeal);
+        mealEntity.addIngredient(ingredientEntity);
+        return updateMeal(mealEntity);
 
-    public Response addIngredient(String id, String id_ingredient) {
-        Document doc = new Document("$push", new Document("ingredients", new Document("_id", new ObjectId(id_ingredient))));
-        Document docId = new Document("_id", new ObjectId(id));
-        Boolean result = mealRepository.update(docId, doc);
-        return getResponse(result);
+
     }
 
     public Response deleteMeal(String id) {
@@ -103,6 +113,7 @@ public class MealService {
         Response.Status response = Boolean.TRUE.equals(result) ? Response.Status.OK : Response.Status.NOT_FOUND;
         return Response.status(response).build();
     }
+
 
 
 }
