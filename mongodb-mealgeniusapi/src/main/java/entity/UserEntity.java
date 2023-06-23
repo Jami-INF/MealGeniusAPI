@@ -70,4 +70,8 @@ public class UserEntity {
     public void setFoods(List<FoodEntity> foods) {
         this.foods = foods;
     }
+
+    public void addFood(FoodEntity food) {
+        this.foods.add(food);
+    }
 }

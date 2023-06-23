@@ -36,7 +36,7 @@ public class StepService {
 
     public Response updateStep(StepEntity step) {
         Document doc = new Document("$set", StepMapper.entityToDocument(step));
-        Document docId = new Document("_id", step.getId());
+        Document docId = new Document("_id", new ObjectId(step.getId()));
         Boolean result =  stepRepository.update(docId, doc);
 
         return getResponse(result);

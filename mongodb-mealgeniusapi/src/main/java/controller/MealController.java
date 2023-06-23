@@ -117,7 +117,6 @@ public class MealController {
     @Path("/addmeal")
     public Response addMeal(MealDTO mealDTO) {
         MealEntity mealEntity = MealMapper.DTOToEntity(mealDTO);
-        System.out.println("efvtgrt"+mealEntity.getName());
         return mealService.addMeal(mealEntity);
     }
 

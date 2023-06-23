@@ -34,7 +34,7 @@ public class IngredientService {
 
     public Response updateIngredient(IngredientEntity ingredient) {
         Document doc = new Document("$set", IngredientMapper.entityToDocument(ingredient));
-        Document docId = new Document("_id", ingredient.getId());
+        Document docId = new Document("_id", new ObjectId(ingredient.getId()));
         Boolean result =  ingredientRepository.update(docId, doc);
 
         return getResponse(result);

@@ -43,7 +43,7 @@ public class FoodService {
 
     public Response updateFood(FoodEntity food) {
         Document doc = new Document("$set", FoodMapper.entityToDocument(food));
-        Document docId = new Document("_id", food.getId());
+        Document docId = new Document("_id", new ObjectId(food.getId()));
         Boolean result =  foodRepository.update(docId, doc);
 
         return getResponse(result);

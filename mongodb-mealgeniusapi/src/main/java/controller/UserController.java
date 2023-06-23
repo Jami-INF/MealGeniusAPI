@@ -1,5 +1,6 @@
 package controller;
 
+import dto.FoodDTO;
 import dto.MealDTO;
 import dto.UserDTO;
 import jakarta.ws.rs.*;
@@ -30,6 +31,13 @@ public class UserController {
         return userDTOs;
     }
 
+    @POST
+    @Path("/{id}/addfood")
+    public Response addFoodToUser(@PathParam("id") String idUser, FoodDTO foodDTO) {
+        return userService.addFoodToUser(idUser, foodDTO);
+    }
+
+
     @GET
     @Path("/{id}")
     public UserDTO getUser (@PathParam("id") String id) {
@@ -44,6 +52,8 @@ public class UserController {
         UserEntity entity = UserMapper.DTOToEntity(user);
         return userService.updateUser(entity);
     }
+
+
 
     @POST
     @Path("/adduser")

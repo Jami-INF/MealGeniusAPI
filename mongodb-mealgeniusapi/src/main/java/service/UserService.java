@@ -1,7 +1,9 @@
 package service;
 
+import dto.FoodDTO;
 import dto.MealDTO;
 import dto.UserDTO;
+import entity.FoodEntity;
 import entity.UserEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
@@ -16,15 +18,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static mapper.FoodMapper.DTOToEntity;
+
 
 @ApplicationScoped
 @Default
 public class UserService {
 
     private UserRepository userRepository;
+    private final FoodService foodService;
+
 
     public UserService() {
         this.userRepository = new UserRepository();
+        this.foodService = new FoodService();
+
     }
 
     public UserDTO getUserById(String id) {
@@ -35,9 +43,17 @@ public class UserService {
         return null;
     }
 
+    public UserEntity getUserEntityById(String id) {
+        Document document = new Document("_id", new ObjectId(id));
+        UserEntity entity = userRepository.find(document);
+        if (entity != null)
+            return entity;
+        return null;
+    }
+
     public Response updateUser(UserEntity user) {
         Document doc = new Document("$set", UserMapper.entityToDocument(user));
-        Document docId = new Document("_id", user.getId());
+        Document docId = new Document("_id", new ObjectId(user.getId()));
         Boolean result =  userRepository.update(docId, doc);
 
         return getResponse(result);
@@ -69,4 +85,16 @@ public class UserService {
         return Response.status(response).build();
     }
 
+    public Response addFoodToUser(String idUser, FoodDTO foodDTO) {
+        if(foodDTO.getId() == null){// if id is null, add the new food
+            foodDTO.setId(new ObjectId().toHexString());
+            foodService.addFood(DTOToEntity(foodDTO));
+        }else if(foodService.getFoodById(foodDTO.getId()) == null){// if id is not null, check if the food exists
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        FoodEntity foodEntity = DTOToEntity(foodDTO);
+        UserEntity user = getUserEntityById(idUser);
+        user.addFood(foodEntity);
+        return updateUser(user);
+    }
 }
