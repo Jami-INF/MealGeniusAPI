@@ -15,6 +15,11 @@ import java.util.List;
 
 public abstract class MealMapper {
 
+    /**
+     * Convert MealEntity to MealDTO
+     * @param mealEntity MealEntity
+     * @return MealDTO
+     */
     public static MealDTO entityToDTO(MealEntity mealEntity){
         MealDTO mealDTO = new MealDTO();
         mealDTO.setId(mealEntity.getId());
@@ -36,6 +41,11 @@ public abstract class MealMapper {
         return mealDTO;
     }
 
+    /**
+     * Convert MealDTO to MealEntity
+     * @param mealDTO MealDTO
+     * @return MealEntity
+     */
     public static MealEntity DTOToEntity(MealDTO mealDTO){
         MealEntity mealEntity = new MealEntity();
         if(mealDTO.getId() == null){
@@ -73,6 +83,12 @@ public abstract class MealMapper {
         return mealEntity;
     }
 
+
+    /**
+     * Convert MealEntity to Document
+     * @param mealEntity MealEntity
+     * @return Document
+     */
     public static Document entityToDocument(MealEntity mealEntity){
         Document mealDocument = new Document();
         mealDocument.append("_id", new ObjectId(mealEntity.getId()));
@@ -93,6 +109,11 @@ public abstract class MealMapper {
         return mealDocument;
     }
 
+    /**
+     * Convert Document to MealEntity
+     * @param mealDocument Document
+     * @return MealEntity
+     */
     public static MealEntity documentToEntity(Document mealDocument) {
         MealEntity mealEntity = new MealEntity();
         ObjectId id = mealDocument.getObjectId("_id");

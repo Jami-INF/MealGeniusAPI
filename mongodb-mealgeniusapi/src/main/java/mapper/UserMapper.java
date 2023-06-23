@@ -17,21 +17,32 @@ public abstract class UserMapper {
 
     private static FoodService foodService = new FoodService();
 
+
+    /**
+     * Convert UserEntity to UserDTO
+     * @param userEntity UserEntity
+     * @return UserDTO
+     */
     public static UserDTO entityToDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userEntity.getId());
         userDTO.setFirstName(userEntity.getFirstName());
         userDTO.setLastName(userEntity.getLastName());
         userDTO.setEmail(userEntity.getEmail());
+        userDTO.setPassword(userEntity.getPassword());
         List<FoodDTO> foodDTOList = new ArrayList<>();
         userEntity.getFoods().forEach(foodEntity -> {
-            //        ingredientDTO.setFood(FoodMapper.entityToDTO(foodService.getFoodEntityById(ingredientEntity.getIdFood())));
             foodDTOList.add(FoodMapper.entityToDTO(foodService.getFoodEntityById(foodEntity.getId())));
         });
         userDTO.setFoods(foodDTOList);
         return userDTO;
     }
 
+    /**
+     * Convert UserDTO to UserEntity
+     * @param userDTO UserDTO
+     * @return  UserEntity
+     */
     public static UserEntity DTOToEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
         if (userDTO.getId() == null) {
@@ -42,12 +53,18 @@ public abstract class UserMapper {
         userEntity.setFirstName(userDTO.getFirstName());
         userEntity.setLastName(userDTO.getLastName());
         userEntity.setEmail(userDTO.getEmail());
+        userEntity.setPassword(userDTO.getPassword());
         List<FoodEntity> foodEntityList = new ArrayList<>();
         userDTO.getFoods().forEach(foodDTO -> foodEntityList.add(FoodMapper.DTOToEntity(foodDTO)));
         userEntity.setFoods(foodEntityList);
         return userEntity;
     }
 
+    /**
+     * Convert UserEntity to Document
+     * @param userEntity UserEntity
+     * @return Document
+     */
     public static Document entityToDocument(UserEntity userEntity) {
         Document userDocument = new Document();
         userDocument.append("_id", new ObjectId(userEntity.getId()));
@@ -56,15 +73,22 @@ public abstract class UserMapper {
         userDocument.append("email", userEntity.getEmail());
         userDocument.append("password", userEntity.getPassword());
         List<Document> foodDocuments = new ArrayList<>();
-        userEntity.getFoods().forEach(foodEntity ->{
-            Document foodDocument = new Document();
-            foodDocument.append("id_food", foodEntity.getId());
-            foodDocuments.add(foodDocument);
-        });
+        if(userEntity.getFoods() != null) {
+            userEntity.getFoods().forEach(foodEntity -> {
+                Document foodDocument = new Document();
+                foodDocument.append("id_food", foodEntity.getId());
+                foodDocuments.add(foodDocument);
+            });
+        }
         userDocument.append("foods", foodDocuments);
         return userDocument;
     }
 
+    /**
+     * Convert Document to UserEntity
+     * @param doc Document
+     * @return UserEntity
+     */
     public static UserEntity documentToEntity(Document doc) {
         UserEntity userEntity = new UserEntity();
         ObjectId objectId = doc.getObjectId("_id");

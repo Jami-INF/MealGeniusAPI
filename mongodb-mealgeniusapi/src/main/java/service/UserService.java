@@ -97,4 +97,15 @@ public class UserService {
         user.addFood(foodEntity);
         return updateUser(user);
     }
+
+    public Response login(String idUser, String email, String password) {
+        UserEntity user = getUserEntityById(idUser);
+        if(user == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+            return Response.status(Response.Status.OK).build();
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
 }

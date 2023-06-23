@@ -17,6 +17,10 @@ public class StepController {
         this.stepService = stepService;
     }
 
+    /**
+     * Get all steps
+     * @return List of StepDTO
+     */
     @GET
     @Path("/")
     public List<StepDTO> getSteps() {
@@ -25,12 +29,24 @@ public class StepController {
         return stepDTOs;
     }
 
+
+    /**
+     * Get step by id
+     * @param id id of step
+     * @return StepDTO
+     */
     @GET
     @Path("/{id}")
     public StepDTO getStep (@PathParam("id") String id) {
         return stepService.getStepById(id);
     }
 
+    /**
+     * Update step
+     * @param id id of step
+     * @param step StepDTO
+     * @return Response
+     */
     @PUT
     @Path("/{id}")
     public Response updateStep (@PathParam("id") String id, StepDTO step) {
@@ -38,6 +54,11 @@ public class StepController {
         return stepService.updateStep(entity);
     }
 
+    /**
+     * Add step
+     * @param stepDTO StepDTO
+     * @return Response
+     */
     @POST
     @Path("/addstep")
     public Response addStep(StepDTO stepDTO) {
@@ -45,6 +66,11 @@ public class StepController {
         return stepService.addStep(stepEntity);
     }
 
+    /**
+     * Delete step
+     * @param id id of step
+     * @return Response
+     */
     @DELETE
     @Path("/{id}")
     public Response deleteStep(@PathParam("id") String id) {

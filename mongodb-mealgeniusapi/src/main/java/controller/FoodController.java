@@ -21,6 +21,10 @@ public class FoodController {
         this.foodService = foodService;
     }
 
+    /**
+     * Get all foods
+     * @return List of FoodDTO
+     */
     @GET
     @Path("/")
     public List<FoodDTO> getFood() {
@@ -29,12 +33,23 @@ public class FoodController {
         return foodDTOs;
     }
 
+    /**
+     * Get food by id
+     * @param id id of food
+     * @return FoodDTO
+     */
     @GET
     @Path("/{id}")
     public FoodDTO getFood (@PathParam("id") String id) {
         return foodService.getFoodById(id);
     }
 
+    /**
+     * Update food
+     * @param id id of food
+     * @param food FoodDTO
+     * @return Response
+     */
     @PUT
     @Path("/{id}")
     public Response updateFood (@PathParam("id") String id, FoodDTO food) {
@@ -42,6 +57,11 @@ public class FoodController {
         return foodService.updateFood(entity);
     }
 
+    /**
+     * Add food
+     * @param foodDTO FoodDTO
+     * @return Response
+     */
     @POST
     @Path("/addfood")
     public Response addFood(FoodDTO foodDTO) {
@@ -49,6 +69,11 @@ public class FoodController {
         return foodService.addFood(foodEntity);
     }
 
+    /**
+     * Delete food
+     * @param id id of food
+     * @return Response
+     */
     @DELETE
     @Path("/{id}")
     public Response deleteFood(@PathParam("id") String id) {

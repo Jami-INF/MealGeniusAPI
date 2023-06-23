@@ -12,6 +12,12 @@ import service.FoodService;
 public abstract class FoodMapper {
 
     private final FoodService foodService = new FoodService();
+
+    /**
+     * Map FoodEntity to FoodDTO
+     * @param foodEntity FoodEntity
+     * @return FoodDTO
+     */
     public static FoodDTO entityToDTO(FoodEntity foodEntity){
         FoodDTO foodDTO = new FoodDTO();
         foodDTO.setId(foodEntity.getId());
@@ -19,6 +25,11 @@ public abstract class FoodMapper {
         return foodDTO;
     }
 
+    /**
+     * Map FoodDTO to FoodEntity
+     * @param foodDTO FoodDTO
+     * @return FoodEntity
+     */
     public static FoodEntity DTOToEntity(FoodDTO foodDTO){
         FoodEntity foodEntity = new FoodEntity();
         if(foodDTO.getId() == null){
@@ -30,6 +41,11 @@ public abstract class FoodMapper {
         return foodEntity;
     }
 
+    /**
+     * Map FoodEntity to Document
+     * @param foodEntity FoodEntity
+     * @return Document
+     */
     public static Document entityToDocument(FoodEntity foodEntity){
         Document doc = new Document();
         doc.append("_id", new ObjectId(foodEntity.getId()));
@@ -37,6 +53,11 @@ public abstract class FoodMapper {
         return doc;
     }
 
+    /**
+     * Map Document to FoodEntity
+     * @param doc   Document
+     * @return FoodEntity
+     */
     public static FoodEntity documentToEntity(Document doc) {
         FoodEntity foodEntity = new FoodEntity();
         ObjectId objectId = doc.getObjectId("_id");
