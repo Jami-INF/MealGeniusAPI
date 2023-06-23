@@ -21,9 +21,7 @@ public class MealRepository {
     private MongoCollection<Document> collection = getConnexion().getCollection("meals");
 
     public MealEntity find(Document query) {
-        System.out.println("query : "+query);
         Document document = collection.find(query).first();
-        System.out.println("document : "+document);
         return document == null ? null : MealMapper.documentToEntity(document);
     }
 
@@ -34,6 +32,16 @@ public class MealRepository {
 
     public List<MealEntity> getAll() {
         List<Document> documents = collection.find().into(new ArrayList<>());
+        List<MealEntity> mealEntities = new ArrayList<>();
+        for (Document document : documents) {
+            mealEntities.add(MealMapper.documentToEntity(document));
+        }
+        return mealEntities;
+    }
+
+    public List<MealEntity> getMealsContainsName(String name) {
+        Document query = new Document("name", new Document("$regex", name).append("$options", "i"));
+        List<Document> documents = collection.find(query).into(new ArrayList<>());
         List<MealEntity> mealEntities = new ArrayList<>();
         for (Document document : documents) {
             mealEntities.add(MealMapper.documentToEntity(document));
@@ -94,4 +102,6 @@ public class MealRepository {
         MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
         return database;
     }
+
+
 }
