@@ -72,7 +72,12 @@ public class UserController {
     }
 
 
-
+    /**
+     * Update user
+     * @param id id of user
+     * @param user UserDTO
+     * @return Response
+     */
     @PUT
     @Path("/{id}")
     public Response updateUser (@PathParam("id") String id, UserDTO user) {
@@ -81,7 +86,11 @@ public class UserController {
     }
 
 
-
+    /**
+     * Add user
+     * @param userDTO
+     * @return
+     */
     @POST
     @Path("/adduser")
     public Response addUser(UserDTO userDTO) {
@@ -89,6 +98,11 @@ public class UserController {
         return userService.addUser(userEntity);
     }
 
+    /**
+     * Delete user
+     * @param id id of user
+     * @return Response
+     */
     @DELETE
     @Path("/{id}")
     public Response deleteUser(@PathParam("id") String id) {
