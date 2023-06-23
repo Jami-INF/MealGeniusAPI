@@ -22,16 +22,31 @@ public class IngredientRepository {
 
     private MongoCollection<Document> collection = getConnexion().getCollection("ingredients");
 
+    /**
+     * Find a food by its id
+     * @param query the id of the food
+     * @return the food found
+     */
     public IngredientEntity find(Document query) {
         Document document = collection.find(query).first();
         return document == null ? null : IngredientMapper.documentToEntity(document);
     }
 
+    /**
+     * Find a food by its name
+     * @param docId the name of the food
+     * @param doc the new food
+     * @return true if the food has been updated
+     */
     public boolean update(Document docId, Document doc) {
         UpdateResult result = collection.updateOne(docId, doc);
         return result.getModifiedCount() == 1;
     }
 
+    /**
+     * Get all the foods
+     * @return a list of all the foods
+     */
     public List<IngredientEntity> getAll() {
         List<Document> documents = collection.find().into(new ArrayList<>());
         List<IngredientEntity> ingredientEntities = new ArrayList<>();
@@ -41,16 +56,30 @@ public class IngredientRepository {
         return ingredientEntities;
     }
 
+    /**
+     * Add a food
+     * @param document the food to add
+     * @return true if the food has been added
+     */
     public boolean add(Document document) {
         InsertOneResult result = collection.insertOne(document);
         return result.getInsertedId() != null;
     }
 
+    /**
+     * Delete a food
+     * @param document the food to delete
+     * @return true if the food has been deleted
+     */
     public boolean delete(Document document) {
         DeleteResult result = collection.deleteOne(document);
         return result.getDeletedCount() == 1;
     }
 
+    /**
+     * Get the connexion to the database
+     * @return the connexion to the database
+     */
     public MongoDatabase getConnexion(){
         String connectionString = "mongodb+srv://jamidev:uz2paZc5Dsii0FVY@mealgeniusapi.j6cu3vg.mongodb.net/?retryWrites=true&w=majority";
 //        String connectionString = "mongodb://localhost:27017";

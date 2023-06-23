@@ -28,13 +28,17 @@ public class UserService {
     private UserRepository userRepository;
     private final FoodService foodService;
 
-
     public UserService() {
         this.userRepository = new UserRepository();
         this.foodService = new FoodService();
 
     }
 
+    /**
+     * Get user by id
+     * @param id
+     * @return
+     */
     public UserDTO getUserById(String id) {
         Document document = new Document("_id", new ObjectId(id));
         UserEntity entity = userRepository.find(document);
@@ -43,6 +47,11 @@ public class UserService {
         return null;
     }
 
+    /**
+     * Get user by id
+     * @param id the id of the user
+     * @return UserEntity
+     */
     public UserEntity getUserEntityById(String id) {
         Document document = new Document("_id", new ObjectId(id));
         UserEntity entity = userRepository.find(document);
@@ -51,6 +60,11 @@ public class UserService {
         return null;
     }
 
+    /**
+     * Update user
+     * @param user the user to update
+     * @return Response
+     */
     public Response updateUser(UserEntity user) {
         Document doc = new Document("$set", UserMapper.entityToDocument(user));
         Document docId = new Document("_id", new ObjectId(user.getId()));
@@ -59,6 +73,11 @@ public class UserService {
         return getResponse(result);
     }
 
+
+    /**
+     * Get all users
+     * @return list of users
+     */
     public List<UserDTO> getAll() {
         List<UserDTO> userDTOs = new ArrayList<>();
         List<UserEntity> userEntities = userRepository.getAll();
@@ -68,23 +87,44 @@ public class UserService {
         return userDTOs;
     }
 
+    /**
+     * Add user
+     * @param user the user to add
+     * @return Response
+     */
     public Response addUser(UserEntity user) {
         //user.setId(new ObjectId().toHexString());
         Boolean result = userRepository.add(UserMapper.entityToDocument(user));
         return getResponse(result);
     }
 
+    /**
+     * Delete user
+     * @param id the id of the user to delete
+     * @return Response
+     */
     public Response deleteUser(String id) {
         Document document = new Document("_id", new ObjectId(id));
         Boolean result = userRepository.delete(document);
         return getResponse(result);
     }
 
+    /**
+     * Get response
+     * @param result the result of the operation
+     * @return Response
+     */
     private Response getResponse(Boolean result) {
         Response.Status response = Boolean.TRUE.equals(result) ? Response.Status.OK : Response.Status.NOT_FOUND;
         return Response.status(response).build();
     }
 
+    /**
+     * Add meal to user
+     * @param idUser the id of the user
+     * @param foodDTO the food to add
+     * @return Response
+     */
     public Response addFoodToUser(String idUser, FoodDTO foodDTO) {
         if(foodDTO.getId() == null){// if id is null, add the new food
             foodDTO.setId(new ObjectId().toHexString());
@@ -98,6 +138,13 @@ public class UserService {
         return updateUser(user);
     }
 
+    /**
+     * Add meal to user
+     * @param idUser the id of the user
+     * @param email the email of the user
+     * @param password the password of the user
+     * @return Response
+     */
     public Response login(String idUser, String email, String password) {
         UserEntity user = getUserEntityById(idUser);
         if(user == null){
