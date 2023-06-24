@@ -5,6 +5,11 @@ MealGenius est une application react native permettant de générer des idées d
 Ce projet est le backend de l'application. Il est réalisé avec Quarkus et utilise une base de données MongoDB.
 L'application est un service REST qui permet de gérer les utilisateurs, les plats, les ingrédients et les recettes.
 
+
+## UML
+![UML](uml.png)
+
+
 ## Services
 Chaque entité possède un service qui permet de gérer les opérations CRUD. 
 Tous les services possèdent les opérations suivantes :
@@ -30,3 +35,14 @@ Certains services possèdent des opérations supplémentaires :
 - `POST /{id}/addingredient` : Ajoute un ingrédient au plat correspondant à l'id. Si l'ingrédient ne possède pas d'ID, il est ajouté à la base de données ingrédients.
 
 ## Installation
+
+### Prérequis
+- Java 11
+- Maven
+
+### Lancement
+- `mvn quarkus:dev` : Lance le serveur en mode développement
+
+### Swagger UI
+- `http://localhost:8080/swagger-ui/` : Interface graphique permettant de tester les services REST
+
