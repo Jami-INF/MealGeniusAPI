@@ -9,6 +9,8 @@ L'application est un service REST qui permet de gérer les utilisateurs, les pla
 ## Dragramme MCD
 ![UML](uml.png)
 
+## Indexes
+L'unique index est sur l'entité Food. C'est la seule entité nécéssitant 
 
 ## Services
 Chaque entité possède un service qui permet de gérer les opérations CRUD. 
