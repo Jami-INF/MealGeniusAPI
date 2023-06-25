@@ -6,7 +6,7 @@ Ce projet est le backend de l'application. Il est réalisé avec Quarkus et util
 L'application est un service REST qui permet de gérer les utilisateurs, les plats, les ingrédients et les recettes.
 
 
-## UML
+## Dragramme MCD
 ![UML](uml.png)
 
 
