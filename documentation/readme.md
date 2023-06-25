@@ -5,8 +5,8 @@ MealGenius est une application react native permettant de générer des idées d
 Ce projet est le backend de l'application. Il est réalisé avec Quarkus et utilise une base de données MongoDB.
 L'application est un service REST qui permet de gérer les utilisateurs, les plats, les ingrédients et les recettes.
 
-
 ## Dragramme MCD
+![MCD](mcd.png)
 ![UML](uml.png)
 
 ## Indexes
