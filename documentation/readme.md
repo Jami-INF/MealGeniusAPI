@@ -6,11 +6,14 @@ Ce projet est le backend de l'application. Il est réalisé avec Quarkus et util
 L'application est un service REST qui permet de gérer les utilisateurs, les plats, les ingrédients et les recettes.
 
 ## Dragramme MCD
+### Shéma complet MCD
 ![MCD](mcd.png)
+
+### UMl des entités implémentés
 ![UML](uml.png)
 
 ## Indexes
-L'unique index est sur l'entité Food. C'est la seule entité nécéssitant 
+L'unique index est sur le champ 'name' de l'entité Food. C'est l'entité possédant le plus de recherches et c'est la seule nécessitant une facilitation et une optimisation des requêtes. C'est utile dans le cas où nous souhaitons rechercher une recette en fonction de divers ingrédients dans notre garde-manger.
 
 ## Services
 Chaque entité possède un service qui permet de gérer les opérations CRUD. 
