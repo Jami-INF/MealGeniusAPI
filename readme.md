@@ -1,16 +1,14 @@
 # Meal Genius API
 
 ## A propos
-MealGenius est une application react native permettant de générer des idées de plats en fonction de ce que l'on a dans son frigo. L'utilisateur peut ajouter de la nourriture a son garde manger et la supprimer une fois mangée. Il peut également ajouter des plats à sa liste de favoris.
-Ce projet est le backend de l'application. Il est réalisé avec Quarkus et utilise une base de données MongoDB.
-L'application est un service REST qui permet de gérer les utilisateurs, les plats, les ingrédients et les recettes.
+MealGenius est une application React Native permettant de générer des idées de plats en fonction des ingrédients disponibles dans le réfrigérateur de l'utilisateur. L'application permet à l'utilisateur d'ajouter des aliments à son garde-manger et de les supprimer une fois consommés. De plus, il peut sélectionner des plats comme favoris et les sauvegarder dans une liste dédiée. Ce projet représente la partie API de l'application, développée avec Quarkus et utilisant une base de données MongoDB. L'application fonctionne comme un service REST qui gère les utilisateurs, les plats, les ingrédients et les recettes.
 
 ## Dragramme MCD
 ### Shéma complet MCD
-![MCD](mcd.png)
+![MCD](documentation/mcd.png)
 
 ### UMl des entités implémentés
-![UML](uml.png)
+![UML](documentation/uml.png)
 
 ## Indexes
 L'unique index est sur le champ 'name' de l'entité Food. C'est l'entité possédant le plus de recherches et c'est la seule nécessitant une facilitation et une optimisation des requêtes. C'est utile dans le cas où nous souhaitons rechercher une recette en fonction de divers ingrédients dans notre garde-manger.
@@ -28,7 +26,7 @@ Certains services possèdent des opérations supplémentaires :
 
 ### Utilisateur (user)
 
-- `POST /{id}/addfood` : Ajoute un aliment au garde manger de l'utilisateur correspondant à l'id. Si l'ingrédient donné ne possède pas d'id, l'ajoute à la base de données nourriture.
+- `POST /{id}/addfood` : Ajoute un aliment au garde-manger de l'utilisateur correspondant à l'id. Si l'ingrédient donné ne possède pas d'id, il est ajouté à la base de données nourriture.
 
 - `POST /{id}/login/{email}/{password}` : Permet de vérifier que l'email et le mot de passe correspondent à l'utilisateur selectionné.
 
@@ -50,4 +48,3 @@ Certains services possèdent des opérations supplémentaires :
 
 ### Swagger UI
 - `http://localhost:8080/swagger-ui/` : Interface graphique permettant de tester les services REST
-
